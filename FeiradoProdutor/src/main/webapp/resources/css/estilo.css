@@ -1,0 +1,72 @@
+@CHARSET "UTF-8";
+
+body {  
+    font-size: 12px;  
+    background-color: #778899;
+}
+
+.topo {  
+    background-image: url("../Imagens/topo.jpg");
+    padding: 20px;
+   
+}
+
+.topo-escrita {  
+    font-size: 38px;
+    font-family: Georgia;
+    font-style: italic;
+    font-weight: bold;
+    color: white;
+   
+}
+
+.titulo-produto {  
+    font-size: 25px;
+    font-family: Georgia;
+    font-weight: bold;
+    color: #3F567B;
+    
+}
+
+.valor-produto {  
+    font-size: 30px;
+    font-family: Georgia;
+    font-style: bold;
+    color: #3F567B;
+    
+}
+
+.unidade-produto {  
+    font-size: 15px;
+    font-family: Georgia;
+    font-style: bold;
+    color: #3F567B;
+    
+}
+
+.feirante-produto {  
+    font-size: 20px;
+    font-family: Georgia;
+    font-style: bold;
+    color: gray;
+    text-align: left;
+    
+}
+
+form {
+	text-align: left
+}
+
+.alinhar-direita{
+	padding: 10px;
+	
+}
+
+.relatorio{
+	margin-left: 250px;
+	font-size: 15px;
+}
+
+.relatorio-desc{
+	font-size: 30px;
+}

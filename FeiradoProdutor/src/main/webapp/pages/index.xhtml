@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  h componentes nativos do HTML -->
+<!--  f componentes nativos do JSF -->
+<!--  p componentes nativos do PrimeFaces -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Feirantes</title>
+</h:head>
+<body>
+
+	<div align="center">
+	
+	<p:layoutUnit position="center" style="min-width:1020px;max-width:1020px;min-height:700px" >
+	
+	<!-- Posicionamento da barra de cabeçalho -->
+	<p:layoutUnit position = "north">
+		<ui:include src = "/templates/topo.xhtml" />
+	</p:layoutUnit>
+	
+	<p:growl id="mensagem" />
+	
+	<h:form id="formListagem">
+		
+		<h:panelGrid styleClass="alinhar-direita" columns="2">
+			<p:inputText  id="nome" maxlength="50" size="30"
+				value=""
+				required="true" requiredMessage="Campo Obrigatório não preenchido" />
+			<p:commandButton value="Pesquisar" type="button" icon="ui-icon-search" />
+		</h:panelGrid>
+		
+		<p:dataGrid var="feiranteProduto" value="#{feiranteProdutoBean.feirantesProdutos}" columns="3" layout="grid"
+        rows="9" paginator="true" id="produtos">
+        
+ 		
+        <f:facet name="header">
+            Saiba quais Produtos são vendidos na Feira do Produtor
+        </f:facet>
+ 
+        <p:panel style="text-align:center">
+            <h:panelGrid columns="1" style="width:100%">
+ 
+				<h:outputText styleClass="titulo-produto" value="#{feiranteProduto.produto.nomeProduto}" />
+                <h:outputText styleClass="valor-produto" value="R$ #{feiranteProduto.valor}" />
+                <h:outputText styleClass="unidade-produto" value="#{feiranteProduto.unidade}" />
+                <h:outputText styleClass="feirante-produto" value="#{feiranteProduto.feirante.nomeFantasia}" />
+ 
+            </h:panelGrid>
+        </p:panel>
+    </p:dataGrid> 
+	</h:form>
+	</p:layoutUnit>
+	
+	</div>
+</body>
+</html>
