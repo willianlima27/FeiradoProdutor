@@ -33,15 +33,16 @@
 		<property name = "hbm2ddl.auto">validate</property>
 		
 		<!-- Mapeamento das entidades-->
-		<mapping class= "br.feira.domain.Estado" />
-		<mapping class = "br.feira.domain.Cidade"/>
-		<mapping class = "br.feira.domain.Arrecadacao"/>
-		<mapping class = "br.feira.domain.Feirante"/>
-		<mapping class = "br.feira.domain.Genero"/>
-		<mapping class = "br.feira.domain.Presenca"/>
-		<mapping class = "br.feira.domain.Produto"/>
-		<mapping class = "br.feira.domain.FeiranteArrecadacao"/>
-		<mapping class = "br.feira.domain.FeiranteProduto"/>
+		<mapping class= "br.com.feiradoprodutor.domain.Estado" />
+		<mapping class = "br.com.feiradoprodutor.domain.Cidade"/>
+		<mapping class = "br.com.feiradoprodutor.domain.Feirante"/>
+		<mapping class = "br.com.feiradoprodutor.domain.Produto"/>
+		<!--<mapping class = "br.com.feiradoprodutor.domain.Genero"/>
+		<mapping class = "br.com.feiradoprodutor.domain.Arrecadacao"/>
+		<mapping class = "br.com.feiradoprodutor.domain.Presenca"/>
+		<mapping class = "br.com.feiradoprodutor.domain.Produto"/>
+		<mapping class = "br.com.feiradoprodutor.domain.FeiranteArrecadacao"/>
+		<mapping class = "br.com.feiradoprodutor.domain.FeiranteProduto"/>-->
 	
 	</session-factory>
 	

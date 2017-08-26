@@ -133,7 +133,7 @@ public class FeiranteBean implements Serializable{
 				cidades = new ArrayList<>();
 			}
 		}catch (RuntimeException erro){
-			Messages.addFlashGlobalError("Ocorreu um erro ao tentar filtras as Cidades");
+			Messages.addFlashGlobalError("Ocorreu um erro ao tentar filtrar as Cidades");
 			erro.printStackTrace();
 		}
 	}

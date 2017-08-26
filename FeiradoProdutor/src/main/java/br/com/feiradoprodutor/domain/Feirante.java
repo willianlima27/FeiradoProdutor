@@ -42,7 +42,7 @@ public class Feirante extends GenericDomain{
 	@Column(length = 14, nullable = true)
 	private String telefone;
 	
-	@Column(length = 14, nullable = false)
+	@Column(length = 15, nullable = false)
 	private String celular;
 	
 	@Column(length = 50, nullable = false)
