@@ -12,7 +12,7 @@
 	
 		<ui:define name="corpo">	
 		<f:metadata>
-			<o:viewParam name="funcao" value="#{cadastroFuncaoBean.funcao}" />
+			<o:viewParam name="feirante" value="#{cadastroFuncaoBean.funcao}" />
 		</f:metadata>
 		
 		<h:form id="frm">
@@ -44,9 +44,6 @@
 				</p:panelGrid>
 		</h:form>
 	</ui:define>
-
-		<!-- Alinhamento da página -->
-		<div align = "center">
 	
 		<!-- Receptor de mansagens do Bean -->
 		<p:growl id = "mensagem" />
@@ -406,5 +403,5 @@
 		</h:form>
 		
 	</p:dialog>
-	</body>
+	</body> 
 </ui:composition>

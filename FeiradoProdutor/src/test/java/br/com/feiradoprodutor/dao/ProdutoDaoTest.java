@@ -14,14 +14,15 @@ public class ProdutoDaoTest {
 	public void salvar(){
 		
 		Produto produto = new Produto();
-		produto.setDescricao("PRoduto Teste");
+		produto.setNomeProduto("Produto Teste2");
+		produto.setGenero("Alimenticio");
 		
 		ProdutoDAO produtoDAO = new ProdutoDAO();
 		produtoDAO.salvar(produto);
 	}
 	
 	@Test
-	//@Ignore
+	@Ignore
 	public void listar(){
 		ProdutoDAO produtoDAO = new ProdutoDAO();
 		List<Produto> resultado = produtoDAO.listar();
@@ -29,7 +30,8 @@ public class ProdutoDaoTest {
 		for(Produto produto : resultado){
 			System.out.println("Registro Encotrado:");
 			System.out.println("Código do Produto: " + produto.getCodigo());
-			System.out.println("Descrição do Produto: " + produto.getDescricao());
+			System.out.println("Nome do Produto: " + produto.getNomeProduto());
+			System.out.println("Genero do Produto: " + produto.getGenero());
 			
 		}
 	}
@@ -37,7 +39,7 @@ public class ProdutoDaoTest {
 	@Test
 	@Ignore
 	public void buscar(){
-		Long codigo = 1L;
+		Long codigo = 6L;
 		
 		ProdutoDAO produtoDAO = new ProdutoDAO();
 		Produto produto = produtoDAO.buscar(codigo);
@@ -47,7 +49,8 @@ public class ProdutoDaoTest {
 		}else{
 			System.out.println("Registro Encotrado:");
 			System.out.println("Código do Produto: " + produto.getCodigo());
-			System.out.println("Descriação: " + produto.getDescricao());
+			System.out.println("Nome do Produto: " + produto.getNomeProduto());
+			System.out.println("Genero do Produto: " + produto.getGenero());
 			
 		}
 	}
@@ -55,7 +58,7 @@ public class ProdutoDaoTest {
 	@Test
 	@Ignore
 	public void excluir(){
-		Long codigo = 3L;
+		Long codigo = 8L;
 		
 		ProdutoDAO produtoDAO = new ProdutoDAO();
 		Produto produto = produtoDAO.buscar(codigo);
@@ -64,7 +67,8 @@ public class ProdutoDaoTest {
 		
 		System.out.println("Registro Removido:");
 		System.out.println("Código do Produto: " + produto.getCodigo());
-		System.out.println("Descriação: " + produto.getDescricao());
+		System.out.println("Nome do Produto: " + produto.getNomeProduto());
+		System.out.println("Genero do Produto: " + produto.getGenero());
 		
 		
 	}
@@ -72,22 +76,25 @@ public class ProdutoDaoTest {
 	@Test
 	@Ignore
 	public void editar(){
-		Long codigo = 3L;
+		Long codigo = 7L;
 		
 		ProdutoDAO produtoDAO = new ProdutoDAO();
 		Produto produto = produtoDAO.buscar(codigo);
 		
 		System.out.println("Produto a ser Editado:");
 		System.out.println("Código do Produto: " + produto.getCodigo());
-		System.out.println("Descriação: " + produto.getDescricao());
+		System.out.println("Nome do Produto: " + produto.getNomeProduto());
+		System.out.println("Genero do Produto: " + produto.getGenero());
 		
-		produto.setDescricao("Produto Alterado");
+		produto.setNomeProduto("Produto Alterado");
+		produto.setGenero("Artesanal");
 		
 		produtoDAO.editar(produto);
 		
 		System.out.println("Produto Editado:");
 		System.out.println("Código do Produto: " + produto.getCodigo());
-		System.out.println("Descriação: " + produto.getDescricao());
+		System.out.println("Nome do Produto: " + produto.getNomeProduto());
+		System.out.println("Genero do Produto: " + produto.getGenero());
 		
 	}
 

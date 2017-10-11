@@ -21,11 +21,9 @@
 			</h:link>
 		</div>
 		<!-- 	MenuBar  -->
-		<div style="float: right; margin-right: 90px; margin-top: 12px;">
-			
+		<div style="float: right; margin-right: 90px; margin-top: 12px;">	
 			<h:form style="display: inline-block;">
-				<p:menubar styleClass="menu-sistema">
-					<p:menuitem value="Home" icon="ui-icon-home" outcome="/Home" />					
+				<p:menubar styleClass="menu-sistema">					
 					<p:submenu label="Cadastros">
 						<p:menuitem value="Feirantes" outcome="/pages/feirante"/>
 						<p:menuitem value="Produtos" outcome="/pages/produto" />
@@ -39,18 +37,12 @@
 						<p:menuitem value="Cadastros" />
 						<p:menuitem value="Controles" />
 					</p:submenu>
-					<p:menuitem value="Sair" icon="ui-icon-close" url="/j_spring_security_logout" />
+					<p:menuitem value="Sair" url="/j_spring_security_logout" />
 				</p:menubar>
 			</h:form>
 		</div>
 		<div style="clear: both;"></div>
 	</header>
-	
-	<!-- 	Rodapé da Página -->
-	<p:separator style="margin-top: 20px" />
-	<footer> 
-		Sistema de controle - Feira do Produtor de Palmas - PR 
-	</footer>
 
 </h:body>
 </html>

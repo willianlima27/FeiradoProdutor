@@ -8,14 +8,25 @@ import javax.persistence.Entity;
 public class Produto extends GenericDomain{
 	
 	@Column(length = 30, nullable = false)
-	private String descricao;
+	private String nomeProduto;
+	
+	@Column(length = 30, nullable = false)
+	private String genero;
 
-	public String getDescricao() {
-		return descricao;
+	public String getNomeProduto() {
+		return nomeProduto;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setNomeProduto(String nomeProduto) {
+		this.nomeProduto = nomeProduto;
+	}
+
+	public String getGenero() {
+		return genero;
+	}
+
+	public void setGenero(String genero) {
+		this.genero = genero;
 	}
 
 }

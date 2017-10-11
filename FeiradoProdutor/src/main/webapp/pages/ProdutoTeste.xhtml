@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<h:outputStylesheet library="css" name="estilo.css" />
+	<title>Produtos</title>
+</h:head>
+<body>
+
+	<ui:define name="titulo">Pesquisa de Produtos</ui:define>
+
+	<ui:define name="corpo">
+		<!--  <f:metadata>
+			<f:event listener="#{ProdutoBean.listar}" type="preRenderView" />
+		</f:metadata> -->
+		
+		<h:form id="frmPesquisa">
+			<p:growl id="growl" showSummary="true" autoUpdate="true" life="5000"  />
+			<h1>Pesquisa de Produtos</h1>
+			
+			<!-- <p:toolbar style="margin-top: 20px; padding: 8px;">
+			
+				<p:toolbarGroup>
+					<p:commandButton value="Pesquisar" id="botaoPesquisar" action="#{ProdutoBean.listar}" update="@form" />
+				</p:toolbarGroup>
+	
+				<p:toolbarGroup align="right">
+					<p:button value="Novo" outcome="/produto/CadastroProduto" />
+				</p:toolbarGroup> 
+			</p:toolbar>
+		
+			<p:panelGrid columns="2" style="width: 100%; margin-top: 20px;" columnClasses="rotulo, campo">
+				<p:outputLabel value="Descrição" for="descricao" />
+				<p:inputText id="descricao" size="60" value="#{ProdutoBean.filtro.nomeProduto}" />
+			</p:panelGrid> -->
+			
+			<p:dataTable id="produtoTable" value="#{ProdutoBean.produtos}" var="produto" style="margin-top: 30px;" 
+				emptyMessage="Nenhum Produto encontrado." rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+				<p:column headerText="Produto" style="text-align: center; width: 100px">
+					<h:outputText value="#{produto.nomeProduto}" />
+				</p:column>
+				<p:column headerText="Genero" >
+					<h:outputText value="#{produto.genero}"  />
+				</p:column>
+				<p:column style="width: 100px; text-align: center;">
+					<p:button icon="ui-icon-pencil" title="Editar" outcome="/produto/CadastroProduto" >
+						<f:attribute name="produtoSelecionado" value="#{produto}"/>
+					</p:button>
+					<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="PF('confirmacaoExclusao').show();" process="@this" update=":frmPesquisa:confirmacaoExclusaoDialog" >
+<!-- 						Quando clicar no botão Excluir de um determinado item, a linha com os dados do produto será atribuido a "pesquisaProdutoBean.produtoSelecionado" -->
+						<f:attribute name="produtoSelecionado" value="#{produto}"/>
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			
+			<!--  Função para chamar a tela de exclusão de Produtos  -->
+			<p:confirmDialog header="Exclusão de Produto" message="Tem certeza que deseja excluir a função #{ProdutoBean.produto.nomeProduto}?"
+					id="confirmacaoExclusaoDialog" widgetVar="confirmacaoExclusao" showEffect="shake " >
+					<p:button value="Não" onclick="PF('confirmacaoExclusao').hide(); return false;" />
+					<p:commandButton  value="Sim" action="#{ProdutoBean.excluir}" oncomplete="PF('confirmacaoExclusao').hide();" update=":frmPesquisa:produtoTable" />
+			</p:confirmDialog>
+	
+		</h:form>
+	</ui:define>
+	</body>
+</html>

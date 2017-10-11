@@ -4,7 +4,8 @@
 body {
 	font-size: 12px;
 	font-family: Helvetica, sans-serif;
-	margin: 0px;
+	width: 80%;
+	margin: 0 auto;
 	font-weight: normal;
 }
 
@@ -148,9 +149,6 @@ h2 {
 .menu-sistema .ui-menu-parent>a .ui-menuitem-text, .menu-sistema>.ui-menu-list>.ui-menuitem>a>.ui-menuitem-text
 	{
 	color: #ffffff !important;
-}
-.menu-sistema .ui-icon-triangle-1-s {
-	background: url(#{ resource [ 'images:seta-para-baixo.png' ] } ) no-repeat;
 }
 .menu-sistema .ui-icon-home {
 	margin-right: 3px;

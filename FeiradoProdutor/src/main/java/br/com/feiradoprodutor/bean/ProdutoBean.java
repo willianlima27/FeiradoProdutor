@@ -47,7 +47,7 @@ public class ProdutoBean implements Serializable{
 	public void listar() {
 		try {
 			ProdutoDAO produtoDAO = new ProdutoDAO();
-			produtos = produtoDAO.listarOrdenado("descricao");
+			produtos = produtoDAO.listarOrdenado("nomeProduto");
 		} catch (RuntimeException erro) {
 			Messages.addFlashGlobalError("Ocorreu um erro ao tentar listar os Produtos");
 			erro.printStackTrace();
@@ -71,7 +71,7 @@ public class ProdutoBean implements Serializable{
 		
 			ProdutoDAO produtoDAO = new ProdutoDAO();
 			produtoDAO.salvar(produto);
-			produtos = produtoDAO.listarOrdenado("descricao");
+			produtos = produtoDAO.listarOrdenado("nomeProduto");
 		
 			produto = new Produto();
 			Messages.addGlobalInfo("Feirante salvo com sucesso");
@@ -99,7 +99,7 @@ public class ProdutoBean implements Serializable{
 			ProdutoDAO produtoDAO = new ProdutoDAO();
 			produtoDAO.excluir(produto);
 			
-			produtos = produtoDAO.listarOrdenado("descricao");
+			produtos = produtoDAO.listarOrdenado("nomeProduto");
 			
 			
 			Messages.addGlobalInfo("Produto removido com sucesso");

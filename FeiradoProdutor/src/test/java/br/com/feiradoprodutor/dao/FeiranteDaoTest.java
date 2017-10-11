@@ -13,7 +13,7 @@ import br.com.feiradoprodutor.domain.Feirante;
 public class FeiranteDaoTest {
 	
 	@Test
-	@Ignore
+	//@Ignore
 	public void salvar(){
 		
 		Long codigoCidade = 3007L;
@@ -47,7 +47,7 @@ public class FeiranteDaoTest {
 	}
 	
 	@Test
-	//@Ignore
+	@Ignore
 	public void listar(){
 		FeiranteDAO feiranteDAO = new FeiranteDAO();
 		List<Feirante> resultado = feiranteDAO.listar();
