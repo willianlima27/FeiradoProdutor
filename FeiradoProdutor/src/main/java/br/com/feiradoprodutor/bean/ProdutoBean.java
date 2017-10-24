@@ -125,5 +125,6 @@ public class ProdutoBean implements Serializable{
 			Messages.addGlobalError("Ocorreu um erro ao tentar gerar o relatório");
 			erro.printStackTrace();
 		}
-	}
+	}	
+	
 }

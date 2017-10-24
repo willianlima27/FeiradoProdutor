@@ -176,3 +176,8 @@ h2 {
 .ui-state-disabled {
 	opacity: .80 !important;
 }
+
+.label{
+	font-size: 12px !important;
+	margin-left: 20px;
+}

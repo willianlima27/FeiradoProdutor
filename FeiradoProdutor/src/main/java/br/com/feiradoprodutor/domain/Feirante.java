@@ -57,6 +57,9 @@ public class Feirante extends GenericDomain{
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Cidade cidade;
+	
+	@Column(nullable = true)
+	private boolean situacaoFrequencia;
 
 	public boolean isSituacao() {
 		return situacao;
@@ -186,4 +189,12 @@ public class Feirante extends GenericDomain{
 		this.cidade = cidade;
 	}
 
+	public boolean isSituacaoFrequencia() {
+		return situacaoFrequencia;
+	}
+
+	public void setSituacaoFrequencia(boolean situacaoFrequencia) {
+		this.situacaoFrequencia = situacaoFrequencia;
+	}
+	
 }

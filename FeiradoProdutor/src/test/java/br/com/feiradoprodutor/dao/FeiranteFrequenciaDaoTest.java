@@ -8,52 +8,48 @@ import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import br.com.feiradoprodutor.domain.Feirante;
+import br.com.feiradoprodutor.domain.FeiranteFrequencia;
 import br.com.feiradoprodutor.domain.Frequencia;
 
-public class FrequenciaDaoTest {
+public class FeiranteFrequenciaDaoTest {
 	
 	@Test
 	//@Ignore
 	public void salvar(){
 		
-		Frequencia frequencia = new Frequencia();
+		Long codigoFeirante = 2L;
+		Long codigoFrequencia = 4L;
 		
-		//Formatando a Data
-		SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
-		Date dt = null;
-		try {
-			dt = f.parse("23/09/2017");
-		} catch (ParseException e) {
-		// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String dt2 = f.format(dt);
-		java.sql.Date dataSql = null;
-		try {
-			dataSql = new java.sql.Date(f.parse(dt2).getTime());
-		} catch (ParseException e) {
-		// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		frequencia.setData(dataSql);
+		FeiranteDAO feiranteDAO = new FeiranteDAO();
+		Feirante feirante = feiranteDAO.buscar(codigoFeirante);
 		
 		FrequenciaDAO frequenciaDAO = new FrequenciaDAO();
-		frequenciaDAO.salvar(frequencia);
+		Frequencia frequencia = frequenciaDAO.buscar(codigoFrequencia);
+		
+		FeiranteFrequencia feiranteFrequencia = new FeiranteFrequencia();
+		
+		feiranteFrequencia.setFeirante(feirante);
+		feiranteFrequencia.setFrequencia(frequencia);
+		feiranteFrequencia.setSituacao(false);
+		
+		FeiranteFrequenciaDAO feiranteFrequenciaDAO = new FeiranteFrequenciaDAO();
+		feiranteFrequenciaDAO.salvar(feiranteFrequencia);
 		
 	}
 	
 	@Test
-	//@Ignore
+	@Ignore
 	public void listar(){
 		
-		FrequenciaDAO frequenciaDAO = new FrequenciaDAO();
-		List<Frequencia> resultado = frequenciaDAO.listar();
+		FeiranteFrequenciaDAO feiranteFrequenciaDAO = new FeiranteFrequenciaDAO();
+		List<FeiranteFrequencia> resultado = feiranteFrequenciaDAO.listar();
 		
-		for(Frequencia frequencia : resultado){
+		for(FeiranteFrequencia feiranteFrequencia : resultado){
 			System.out.println("Registros Encotrado:");
-			System.out.println("Código: " + frequencia.getCodigo());
-			System.out.println("Data: " + frequencia.getData());
+			System.out.println("Código: " + feiranteFrequencia.getCodigo());
+			System.out.println("Feirante: " + feiranteFrequencia.getFeirante().getNomeFantasia());
+			System.out.println("Situação: " + feiranteFrequencia.getSituacao());
 		}
 	}
 	
@@ -71,6 +67,8 @@ public class FrequenciaDaoTest {
 			System.out.println("Registro Encotrado:");
 			System.out.println("Código: " + frequencia.getCodigo());
 			System.out.println("Data: " + frequencia.getData());
+			System.out.println("Feirante: " + frequencia.getFeirante().getNomeFantasia());
+			System.out.println("Situação: " + frequencia.getSituacao());
 		}
 	}
 	
@@ -87,13 +85,19 @@ public class FrequenciaDaoTest {
 		System.out.println("Registro Removido:");
 		System.out.println("Código: " + frequencia.getCodigo());
 		System.out.println("Data: " + frequencia.getData());
+		System.out.println("Feirante: " + frequencia.getFeirante().getNomeFantasia());
+		System.out.println("Situação: " + frequencia.getSituacao());
 			
 	}
 	
 	@Test
 	@Ignore
 	public void editar(){
+		Long codigoFeirante = 1L;
 		Long codigoFrequencia = 3L;
+		
+		FeiranteDAO feiranteDAO = new FeiranteDAO();
+		Feirante feirante = feiranteDAO.buscar(codigoFeirante);
 		
 		FrequenciaDAO frequenciaDAO = new FrequenciaDAO();
 		Frequencia frequencia = frequenciaDAO.buscar(codigoFrequencia);
@@ -101,6 +105,8 @@ public class FrequenciaDaoTest {
 		System.out.println("Frequencia a ser editado:");
 		System.out.println("Código: " + frequencia.getCodigo());
 		System.out.println("Data: " + frequencia.getData());
+		System.out.println("Feirante: " + frequencia.getFeirante().getNomeFantasia());
+		System.out.println("Situação: " + frequencia.getSituacao());
 		
 		//Formatando a Data
 		SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
@@ -121,10 +127,14 @@ public class FrequenciaDaoTest {
 		}
 		
 		frequencia.setData(dataSql);
+		frequencia.setSituacao(true);
+		frequencia.setFeirante(feirante);
 		
 		System.out.println("Frequencia Edidado");
 		System.out.println("Código: " + frequencia.getCodigo());
 		System.out.println("Data: " + frequencia.getData());
+		System.out.println("Feirante: " + frequencia.getFeirante().getNomeFantasia());
+		System.out.println("Situação: " + frequencia.getSituacao());
 	}
 
 }

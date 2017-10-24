@@ -14,34 +14,35 @@
 <body>
 
 	<ui:define name="titulo">Pesquisa de Produtos</ui:define>
-
-	<ui:define name="corpo">
-		<!--  <f:metadata>
-			<f:event listener="#{ProdutoBean.listar}" type="preRenderView" />
-		</f:metadata> -->
 		
 		<h:form id="frmPesquisa">
-			<p:growl id="growl" showSummary="true" autoUpdate="true" life="5000"  />
+			
 			<h1>Pesquisa de Produtos</h1>
+			<p:fieldset>
 			
-			<!-- <p:toolbar style="margin-top: 20px; padding: 8px;">
-			
+			<p:toolbar style="margin-top: 20px; padding: 8px;">			
 				<p:toolbarGroup>
-					<p:commandButton value="Pesquisar" id="botaoPesquisar" action="#{ProdutoBean.listar}" update="@form" />
+					<p:commandButton value="Novo" action="#{produtoBean.novo}" update=":frmPesquisa"></p:commandButton>
+                    <p:commandButton value="Salvar" action="#{produtoBean.salvar}" disabled="#{produtoBean.busca == true}" update=":frmPesquisa"></p:commandButton>
 				</p:toolbarGroup>
-	
-				<p:toolbarGroup align="right">
-					<p:button value="Novo" outcome="/produto/CadastroProduto" />
-				</p:toolbarGroup> 
 			</p:toolbar>
 		
-			<p:panelGrid columns="2" style="width: 100%; margin-top: 20px;" columnClasses="rotulo, campo">
-				<p:outputLabel value="Descrição" for="descricao" />
-				<p:inputText id="descricao" size="60" value="#{ProdutoBean.filtro.nomeProduto}" />
-			</p:panelGrid> -->
+			<p:panelGrid columns="2" style="width: 100%; margin-top: 20px;" columnClasses="rotulo, campo" rendered="#{produtoBean.busca == false}">
+				<p:outputLabel value="Produto" for="produto" />
+				<p:inputText id="produto" size="60" value="#{produtoBean.produto.nomeProduto}" />
+				
+				<p:outputLabel value="Genero" />
+				<p:selectOneMenu style = "margin-bottom: 5px" filter="true" required="true" value="#{produtoBean.produto.genero}">
+					<f:selectItem noSelectionOption="true" itemLabel="Selecione um genero" />
+					<f:selectItem itemLabel="Alimentício" itemValue="Alimenticio"/>
+					<f:selectItem itemLabel="Artesanal" itemValue="Artesanal"/>
+				</p:selectOneMenu>
+				
+				
+			</p:panelGrid>
 			
-			<p:dataTable id="produtoTable" value="#{ProdutoBean.produtos}" var="produto" style="margin-top: 30px;" 
-				emptyMessage="Nenhum Produto encontrado." rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+			<p:dataTable id="tabela" value="#{produtoBean.produtos}" var="produto" 
+				emptyMessage="Nenhum Produto encontrado." rows="10" paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom" rendered="#{produtoBean.busca == true}">
 				<p:column headerText="Produto" style="text-align: center; width: 100px">
 					<h:outputText value="#{produto.nomeProduto}" />
 				</p:column>
@@ -49,24 +50,26 @@
 					<h:outputText value="#{produto.genero}"  />
 				</p:column>
 				<p:column style="width: 100px; text-align: center;">
-					<p:button icon="ui-icon-pencil" title="Editar" outcome="/produto/CadastroProduto" >
+					<p:commandButton icon="ui-icon-pencil" title="Editar" actionListener="#{produtoBean.editar}" update=":frmPesquisa">
 						<f:attribute name="produtoSelecionado" value="#{produto}"/>
-					</p:button>
-					<p:commandButton icon="ui-icon-trash" title="Excluir" oncomplete="PF('confirmacaoExclusao').show();" process="@this" update=":frmPesquisa:confirmacaoExclusaoDialog" >
-<!-- 						Quando clicar no botão Excluir de um determinado item, a linha com os dados do produto será atribuido a "pesquisaProdutoBean.produtoSelecionado" -->
+					</p:commandButton>
+					
+					<p:commandButton icon="ui-icon-trash" actionListener="#{produtoBean.excluir}"
+					update=":frmPesquisa:tabela">
+					<p:confirm header="Confirmação"	message = "Deseja Excluir o Produto?" icon="ui-icon-alert" />
 						<f:attribute name="produtoSelecionado" value="#{produto}"/>
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>
 			
 			<!--  Função para chamar a tela de exclusão de Produtos  -->
-			<p:confirmDialog header="Exclusão de Produto" message="Tem certeza que deseja excluir a função #{ProdutoBean.produto.nomeProduto}?"
-					id="confirmacaoExclusaoDialog" widgetVar="confirmacaoExclusao" showEffect="shake " >
-					<p:button value="Não" onclick="PF('confirmacaoExclusao').hide(); return false;" />
-					<p:commandButton  value="Sim" action="#{ProdutoBean.excluir}" oncomplete="PF('confirmacaoExclusao').hide();" update=":frmPesquisa:produtoTable" />
+			<p:confirmDialog global="true">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 			</p:confirmDialog>
-	
+	</p:fieldset>
 		</h:form>
-	</ui:define>
 	</body>
 </html>

@@ -15,24 +15,21 @@
 	<title>Produtos</title>
 </h:head>
 
-<!-- Importação do Template -->
+<!-- Importação do Template Padrão -->
 	<p:layoutUnit position = "north">
 		<ui:include src = "/templates/template.xhtml" />
 	</p:layoutUnit>
 	
-	<f:metadata>
-		<o:viewParam name="produto" value="#{ProdutoBean.produto}" />
-		<f:event listener="#{ProdutoBean.inicializar}" type="preRenderView" />
-	</f:metadata>
-
-<body>
-
-	<div align="center">	
-	 	
-	<p:growl id="mensagem" />
-
-	<h:form id="formListagem">
-		<p:layoutUnit position="center">
+	<body>
+		<!-- Alinhamento da página -->
+		<div align = "center">
+	
+			<!-- Receptor de mansagens do Bean -->
+			<p:growl id = "mensagem" />
+	
+			<!-- Definição do formulário de listagem -->
+			<h:form id = "formListagem">
+			<p:layoutUnit position="center">
 			<p:panel header="Produtos - Listagem">
 			
 			<f:facet name="header">
@@ -44,8 +41,6 @@
 			
 			<p:dataTable id="tabela" emptyMessage="Nenhum registro encontrado." 
 					paginator="true" paginatorPosition="bottom" value="#{produtoBean.produtos}" var="produto" rows="10">
-			
-				
 
 				<p:column headerText="Produto" sortBy="#{produto.nomeProduto}">
 					<h:outputText value="#{produto.nomeProduto}" />
@@ -56,9 +51,11 @@
 				</p:column>
 				
 				<p:column style="text-align:center" width="100" headerText="Opções" >
-					<p:Button icon="ui-icon-pencil" title="Editar" outcome="cadastroProduto">
-						<f:param name="produto" value="#{produto.codigo}" />
-					</p:Button>
+					<p:commandButton icon="ui-icon-pencil" actionListener= "#{produtoBean.editar}" update=":formCadastro:painel" 
+					oncomplete="PF('dialogo').show();">
+						<f:attribute name="produtoSelecionado" value="#{produto}"/>
+						<f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
 					
 					<p:commandButton icon="ui-icon-trash" actionListener="#{produtoBean.excluir}"
 					update=":mensagem :formListagem:tabela">
@@ -67,7 +64,7 @@
 					</p:commandButton>
 				</p:column>
 				
-						</p:dataTable>
+			</p:dataTable>
 			<p:confirmDialog global="true">
 				<p:commandButton value="Sim" type="button"
 					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
@@ -85,21 +82,19 @@
 		<h:form id="formCadastro">
 			<h:panelGrid id="painel" columns="2">
 				
+				<p:outputLabel for="nome" style = "margin-bottom: 5px" value="Nome:" />
+				<p:inputText id="nome" style = "margin-bottom: 5px"  maxlength="50" size="30"
+					value="#{produtoBean.produto.nomeProduto}"
+					required="true" requiredMessage="Campo Obrigatório não preenchido" />				
+				
 				<p:outputLabel for="genero" style = "margin-bottom: 5px" value="Gênero:" />
 				<p:selectOneMenu id="genero" style = "margin-bottom: 5px" filter="true" required="true" value="#{produtoBean.produto.genero}"
 					converter="omnifaces.SelectItemsConverter">
 					<f:selectItem noSelectionOption="true" itemLabel="Selecione um gênero"></f:selectItem>
+					<f:selectItem itemLabel="Alimenticio" itemValue="Alimenticio"></f:selectItem>
+					<f:selectItem itemLabel="Artesanal" itemValue="Artesanal"></f:selectItem>
 				</p:selectOneMenu>
-				
-				<p:outputLabel for="nome" style = "margin-bottom: 5px" value="Nome:" />
-				<p:inputText id="nome" style = "margin-bottom: 5px"  maxlength="50" size="30"
-					value="#{produtoBean.produto.nomeProduto}"
-					required="true" requiredMessage="Campo Obrigatório não preenchido" />
-					
-				
 			</h:panelGrid>
-			
-			
 
 			<h:panelGrid columns="2">
 				<p:commandButton value="Salvar" actionListener="#{produtoBean.salvar}"
@@ -108,12 +103,9 @@
 			</h:panelGrid>
 		</h:form>
 	</p:dialog>
-	
-	
-
 </body>
 
-<!-- Importação do Template -->
+	<!-- Importação do Template -->
 	<p:layoutUnit position = "north">
 		<ui:include src = "/templates/rodape.xhtml" />
 	</p:layoutUnit>

@@ -1,8 +1,8 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 
 <!DOCTYPE hibernate-configuration PUBLIC
-        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
         
 <hibernate-configuration>
 
@@ -40,6 +40,8 @@
 		<mapping class = "br.com.feiradoprodutor.domain.Usuario"/>
 		<mapping class = "br.com.feiradoprodutor.domain.Arrecadacao"/>
 		<mapping class = "br.com.feiradoprodutor.domain.Frequencia"/>
+		<mapping class = "br.com.feiradoprodutor.domain.FeiranteProduto"/>
+		<mapping class = "br.com.feiradoprodutor.domain.FeiranteFrequencia"/>
 		<!--<mapping class = "br.com.feiradoprodutor.domain.Genero"/>
 		<mapping class = "br.com.feiradoprodutor.domain.Arrecadacao"/>
 		<mapping class = "br.com.feiradoprodutor.domain.Presenca"/>

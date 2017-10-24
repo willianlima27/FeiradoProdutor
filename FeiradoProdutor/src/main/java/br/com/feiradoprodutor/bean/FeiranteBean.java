@@ -75,7 +75,7 @@ public class FeiranteBean implements Serializable{
 	public void setEstados(List<Estado> estados) {
 		this.estados = estados;
 	}
-	
+
 	@PostConstruct
 	public void listar() {
 		try {
@@ -144,7 +144,6 @@ public class FeiranteBean implements Serializable{
 			
 			EstadoDAO estadoDAO = new EstadoDAO();
 			estados = estadoDAO.listar();
-			
 			
 			CidadeDAO cidadeDAO = new CidadeDAO();
 			cidades = cidadeDAO.listarOrdenado("nomeCidade");
