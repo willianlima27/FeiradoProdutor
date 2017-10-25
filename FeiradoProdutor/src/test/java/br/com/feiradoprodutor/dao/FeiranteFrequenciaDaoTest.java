@@ -67,8 +67,6 @@ public class FeiranteFrequenciaDaoTest {
 			System.out.println("Registro Encotrado:");
 			System.out.println("Código: " + frequencia.getCodigo());
 			System.out.println("Data: " + frequencia.getData());
-			System.out.println("Feirante: " + frequencia.getFeirante().getNomeFantasia());
-			System.out.println("Situação: " + frequencia.getSituacao());
 		}
 	}
 	
@@ -85,19 +83,13 @@ public class FeiranteFrequenciaDaoTest {
 		System.out.println("Registro Removido:");
 		System.out.println("Código: " + frequencia.getCodigo());
 		System.out.println("Data: " + frequencia.getData());
-		System.out.println("Feirante: " + frequencia.getFeirante().getNomeFantasia());
-		System.out.println("Situação: " + frequencia.getSituacao());
 			
 	}
 	
 	@Test
 	@Ignore
 	public void editar(){
-		Long codigoFeirante = 1L;
 		Long codigoFrequencia = 3L;
-		
-		FeiranteDAO feiranteDAO = new FeiranteDAO();
-		Feirante feirante = feiranteDAO.buscar(codigoFeirante);
 		
 		FrequenciaDAO frequenciaDAO = new FrequenciaDAO();
 		Frequencia frequencia = frequenciaDAO.buscar(codigoFrequencia);
@@ -105,8 +97,6 @@ public class FeiranteFrequenciaDaoTest {
 		System.out.println("Frequencia a ser editado:");
 		System.out.println("Código: " + frequencia.getCodigo());
 		System.out.println("Data: " + frequencia.getData());
-		System.out.println("Feirante: " + frequencia.getFeirante().getNomeFantasia());
-		System.out.println("Situação: " + frequencia.getSituacao());
 		
 		//Formatando a Data
 		SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
@@ -127,14 +117,10 @@ public class FeiranteFrequenciaDaoTest {
 		}
 		
 		frequencia.setData(dataSql);
-		frequencia.setSituacao(true);
-		frequencia.setFeirante(feirante);
 		
 		System.out.println("Frequencia Edidado");
 		System.out.println("Código: " + frequencia.getCodigo());
 		System.out.println("Data: " + frequencia.getData());
-		System.out.println("Feirante: " + frequencia.getFeirante().getNomeFantasia());
-		System.out.println("Situação: " + frequencia.getSituacao());
 	}
 
 }

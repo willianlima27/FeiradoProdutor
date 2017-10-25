@@ -22,5 +22,4 @@ public class FrequenciaDAO extends GenericDAO<Frequencia>{
 		}
 	}
 	
-	
 }

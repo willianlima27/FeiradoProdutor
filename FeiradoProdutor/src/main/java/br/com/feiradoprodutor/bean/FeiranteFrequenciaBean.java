@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ActionEvent;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
 import org.primefaces.component.datatable.DataTable;
@@ -37,7 +38,6 @@ public class FeiranteFrequenciaBean implements Serializable{
 		
 	private List<FeiranteFrequencia> feirantesFrequencias;
 	private List<FeiranteFrequencia> frequenciaPorData;
-	private List<FeiranteFrequencia> feiranteGroup;
 	private List<Frequencia> frequencias;
 	private List<Feirante> feirantes;
 
@@ -95,14 +95,6 @@ public class FeiranteFrequenciaBean implements Serializable{
 
 	public void setFeirantes(List<Feirante> feirantes) {
 		this.feirantes = feirantes;
-	}
-	
-	public List<FeiranteFrequencia> getFeiranteGroup() {
-		return feiranteGroup;
-	}
-
-	public void setFeiranteGroup(List<FeiranteFrequencia> feiranteGroup) {
-		this.feiranteGroup = feiranteGroup;
 	}
 
 	@PostConstruct
@@ -169,26 +161,51 @@ public class FeiranteFrequenciaBean implements Serializable{
 				feiranteFrequenciaDAO.salvar(feiranteFrequencia);
 				
 			}
+			listar();
 			
 			Messages.addGlobalInfo("Registro de Frequencia adicionado com sucesso");
-		} catch (RuntimeException erro) {
-			Messages.addFlashGlobalError("Ocorreu um erro ao tentar adicionar a lista de Frequencia");
+		} catch (ConstraintViolationException erro) {
+			Messages.addFlashGlobalError("ERRO: Já existe um registro de frequência para esta data");
+			erro.printStackTrace();
+		}
+	}
+	
+	public void salvarEdicao() {
+		try {
+			FrequenciaDAO frequenciaDAO = new FrequenciaDAO();
+			System.out.println(frequencia.getData());
+			frequenciaDAO.salvar(frequencia);
+			for(FeiranteFrequencia feiranteFrequencia : frequenciaPorData){
+				FeiranteFrequenciaDAO feiranteFrequenciaDAO = new FeiranteFrequenciaDAO();
+				feiranteFrequenciaDAO.salvar(feiranteFrequencia);
+			}
+			listar();
+			
+			Messages.addGlobalInfo("Registro de Frequencia editado com sucesso");
+		} catch (ConstraintViolationException erro) {
+			Messages.addFlashGlobalError("ERRO: Já existe um registro de frequência para esta data");
 			erro.printStackTrace();
 		}
 	}
 	
 	public void excluir(ActionEvent evento){
 		try{
-			feiranteFrequencia = (FeiranteFrequencia) evento.getComponent().getAttributes().get("feiranteFrequenciaSelecionada");
-			
-			FeiranteFrequenciaDAO feiranteFrequenciaDAO = new FeiranteFrequenciaDAO();
-			feiranteFrequenciaDAO.excluir(feiranteFrequencia);
-			
+			frequencia = new Frequencia();
+			frequencia = (Frequencia) evento.getComponent().getAttributes().get("frequenciaSelecionada");
 			popular();
-			
-			Messages.addGlobalInfo("Produto removido com sucesso");
+			for(FeiranteFrequencia feiranteFrequencia: frequenciaPorData){
+				System.out.println("codigo feiranteFrequencia:"+feiranteFrequencia.getCodigo());
+				FeiranteFrequenciaDAO feiranteFrequenciaDAO = new FeiranteFrequenciaDAO();
+				feiranteFrequenciaDAO.excluir(feiranteFrequencia);;
+				
+			}
+			FrequenciaDAO frequenciaDAO = new FrequenciaDAO();
+			frequenciaDAO.excluir(frequencia);
+			listar();
+
+			Messages.addGlobalInfo("Registro de Frequência removido com sucesso");
 		}catch (RuntimeException erro){
-			Messages.addFlashGlobalError("Ocorreu um erro ao tentar remover o Produto");
+			Messages.addFlashGlobalError("Ocorreu um erro ao tentar remover o Registro de Frequência");
 			erro.printStackTrace();
 		}
 	}

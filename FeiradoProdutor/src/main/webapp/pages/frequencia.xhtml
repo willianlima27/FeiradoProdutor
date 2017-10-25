@@ -70,10 +70,10 @@
 								</p:commandButton>
 					
 								<!-- Botão "Excluir" -->
-								<p:commandButton icon = "ui-icon-trash" actionListener = "#{frequenciaBean.excluir}"
+								<p:commandButton icon = "ui-icon-trash" actionListener = "#{feiranteFrequenciaBean.excluir}"
 									update = ":mensagem :formListagem:tabelaFrequencia">
 									<p:confirm header = "Confirmação"	message = "Deseja excluir a Frquência?" icon = "ui-icon-alert" />
-										<f:attribute name = "frequenciaSelecionado" value = "#{frequencia}"/>			
+										<f:attribute name = "frequenciaSelecionada" value="#{frequencia}"/>		
 								</p:commandButton>
 							</p:column>
 				
@@ -170,7 +170,7 @@
 				<f:facet name="footer">
 					<p:column>
 						<p:commandButton style = "text-align:center; margin-top: 0px" 
-							value = "Salvar" actionListener = "#{feiranteFrequenciaBean.salvar}"
+							value = "Salvar" actionListener = "#{feiranteFrequenciaBean.salvarEdicao}"
 							update = ":mensagemEditar :formEditar:painel :formListagem:tabelaFrequencia" />
 					</p:column>
 					<p:column>

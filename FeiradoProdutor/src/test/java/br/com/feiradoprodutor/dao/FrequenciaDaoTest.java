@@ -44,7 +44,7 @@ public class FrequenciaDaoTest {
 	}
 	
 	@Test
-	//@Ignore
+	@Ignore
 	public void listar(){
 		
 		FrequenciaDAO frequenciaDAO = new FrequenciaDAO();

@@ -11,7 +11,7 @@ import javax.persistence.TemporalType;
 @Entity
 public class Frequencia extends GenericDomain{
 	
-	@Column(nullable = false)
+	@Column(nullable = false, unique=true)
 	@Temporal(TemporalType.DATE)
 	private Date data;
 
