@@ -138,7 +138,7 @@ public class FeiranteFrequenciaBean implements Serializable{
 			
 			
 		} catch (RuntimeException erro) {
-			Messages.addFlashGlobalError("Ocorreu um erro ao gerar uma nova Adição de Produto");
+			Messages.addFlashGlobalError("Ocorreu um erro ao gerar uma nova Frequência");
 			erro.printStackTrace();
 		}
 	}
@@ -146,14 +146,10 @@ public class FeiranteFrequenciaBean implements Serializable{
 	public void salvar() {
 		try {
 			FrequenciaDAO frequenciaDAO = new FrequenciaDAO();
-			System.out.println("data:"+frequencia.getCodigo());
 			frequenciaDAO.salvar(frequencia);	
-			System.out.println("codigo antes:"+frequencia.getCodigo());
 			Long codigoFrequencia = frequenciaDAO.listarUltimo();
 			frequencia = frequenciaDAO.buscar(codigoFrequencia);
-			System.out.println("codigo depois:"+frequencia.getCodigo());
 			for(Feirante f: feirantes){
-				System.out.println("codigo feirante:"+f.getCodigo());
 				feiranteFrequencia.setFeirante(f);
 				feiranteFrequencia.setFrequencia(frequencia);
 				feiranteFrequencia.setSituacao(f.isSituacaoFrequencia());
@@ -173,7 +169,6 @@ public class FeiranteFrequenciaBean implements Serializable{
 	public void salvarEdicao() {
 		try {
 			FrequenciaDAO frequenciaDAO = new FrequenciaDAO();
-			System.out.println(frequencia.getData());
 			frequenciaDAO.salvar(frequencia);
 			for(FeiranteFrequencia feiranteFrequencia : frequenciaPorData){
 				FeiranteFrequenciaDAO feiranteFrequenciaDAO = new FeiranteFrequenciaDAO();
@@ -194,7 +189,6 @@ public class FeiranteFrequenciaBean implements Serializable{
 			frequencia = (Frequencia) evento.getComponent().getAttributes().get("frequenciaSelecionada");
 			popular();
 			for(FeiranteFrequencia feiranteFrequencia: frequenciaPorData){
-				System.out.println("codigo feiranteFrequencia:"+feiranteFrequencia.getCodigo());
 				FeiranteFrequenciaDAO feiranteFrequenciaDAO = new FeiranteFrequenciaDAO();
 				feiranteFrequenciaDAO.excluir(feiranteFrequencia);;
 				

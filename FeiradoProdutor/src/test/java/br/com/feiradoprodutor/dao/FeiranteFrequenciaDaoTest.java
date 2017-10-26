@@ -15,7 +15,7 @@ import br.com.feiradoprodutor.domain.Frequencia;
 public class FeiranteFrequenciaDaoTest {
 	
 	@Test
-	//@Ignore
+	@Ignore
 	public void salvar(){
 		
 		Long codigoFeirante = 2L;

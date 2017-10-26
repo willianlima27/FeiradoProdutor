@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  h componentes nativos do HTML -->
+<!--  f componentes nativos do JSF -->
+<!--  p componentes nativos do PrimeFaces -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:o="http://omnifaces.org/ui">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<h:outputStylesheet library="css" name="estilo.css" />
+<h:outputStylesheet library="css" name="style.css" />
+	<title>Arrecadacao</title>
+</h:head>
+
+<!-- Importação do Template Padrão -->
+	<p:layoutUnit position = "north">
+		<ui:include src = "/templates/template.xhtml" />
+	</p:layoutUnit>
+	
+	<body>
+
+		<!-- Alinhamento da página -->
+		<div align = "center">
+	
+			<!-- Receptor de mansagens do Bean -->
+			<p:growl id = "mensagem" />
+	
+			<!-- Definição do formulário de listagem -->
+			<h:form id = "formListagem">
+				<p:layoutUnit position = "center">
+				
+					<!-- Definição do painel contêiner -->
+					<p:panel header = "Arrecadações - Listagem">
+					
+					<!-- Botão "Novo" para manter feirante -->
+					<f:facet name = "header">
+						<p:commandButton value = "Novo" actionListener = "#{feiranteArrecadacaoBean.novo}"
+							update = ":mensagem :formNovo:painel" oncomplete = "PF('dialogoNovo').show();"  >
+							<f:actionListener type = "org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+						</p:commandButton>
+					</f:facet>
+
+						<!-- Definição da tabela -->
+						<p:dataTable id = "tabelaArrecadacao" emptyMessage = "Nenhum registro de arrecadação foi encontrado." 
+							paginator = "true" paginatorPosition = "bottom" value = "#{feiranteArrecadacaoBean.arrecadacoes}" 
+							var = "arrecadacao" rows = "10">
+					
+							<!-- Coluna "Descrição" -->
+							<p:column headerText = "Descrição" sortBy="#{arrecadacao.descricao}">
+								<h:outputText value = "#{arrecadacao.descricao}" />
+							</p:column>
+							
+							<!-- Coluna "Data" -->
+							<p:column headerText = "Data" sortBy = "#{arrecadacao.data}">
+								<h:outputText value = "#{arrecadacao.data}">
+									<f:convertDateTime locale="pt_BR"/>
+								</h:outputText>
+							</p:column>
+				
+							<!-- Coluna "Valor" -->
+							<p:column headerText = "Valor" sortBy="#{arrecadacao.valor}">
+								<h:outputText value = "#{arrecadacao.valor}" />
+							</p:column>
+				
+							<!-- Coluna de opções -->
+							<p:column style="text-align:center" width = "160" headerText = "Opções" >
+								<p:commandButton icon = "ui-icon-pencil" actionListener = "#{feiranteArrecadacaoBean.editar}" 
+									update = ":formEditar:painel" oncomplete = "PF('dialogoEditar').show();">									
+									<f:attribute name = "arrecadacaoSelecionada" value="#{arrecadacao}"/>
+									<f:actionListener type = "org.omnifaces.eventlistener.ResetInputAjaxActionListener" />										
+								</p:commandButton>
+					
+								<!-- Botão "Excluir" -->
+								<p:commandButton icon = "ui-icon-trash" actionListener = "#{feiranteArrecadacaoBean.excluir}"
+									update = ":mensagem :formListagem:tabelaArrecadacao">
+									<p:confirm header = "Confirmação"	message = "Deseja excluir o registro?" icon = "ui-icon-alert" />
+										<f:attribute name = "arrecadacaoSelecionada" value="#{arrecadacao}"/>		
+								</p:commandButton>
+							</p:column>
+				
+						</p:dataTable>
+						
+					<!-- Diálogo padrão para exclusão -->
+					<p:confirmDialog global = "true">
+						<p:commandButton value = "Sim" type = "button"
+						styleClass = "ui-confirmdialog-yes" icon = "ui-icon-check" />
+						<p:commandButton value = "Não" type = "button"
+						styleClass = "ui-confirmdialog-no" icon = "ui-icon-close" />
+					</p:confirmDialog>
+				
+				</p:panel>
+			</p:layoutUnit>
+		</h:form>
+	</div>
+	
+	<p:dialog header = "Arrecadação - Registro" widgetVar = "dialogoNovo" maximizable = "30px" width="45%"
+	 closable = "false" draggable = "false" modal = "true" resizable = "false" >
+		
+		<p:growl id = "mensagemNovo" />
+		<!-- Formulário de cadastro -->
+		<h:form id = "formNovo" >			
+		
+			<!-- Painel para alinhamento dos componentes -->
+			<h:panelGrid title = "Arrecadações" id = "painel"  style = "margin-bottom: 8px" cellpadding = "0">
+			
+			<p:outputLabel for="descricao" value="Descrição: ">
+				<p:inputText id="descricao" value="#{feiranteArrecadacaoBean.arrecadacao.descricao}" size="50" style="margin-bottom: 3px"/>
+			</p:outputLabel>
+			
+			<p:row>
+			<p:column>
+				<p:outputLabel for="data" value="Data: ">
+					<p:calendar id="data"
+						value="#{feiranteArrecadacaoBean.arrecadacao.data}" size="10" locale="pt_BR" />
+				</p:outputLabel>
+			</p:column>
+			<p:column>
+				<p:outputLabel for="valor" value="Valor: " style="margin-left: 10px">
+					<p:inputText id="valor" value="#{feiranteArrecadacaoBean.arrecadacao.valor}" size="10"/>
+				</p:outputLabel>
+			</p:column>
+			</p:row>	
+					
+				<p:dataTable id = "tabelaArrecadacaoRegistro" emptyMessage = "Nenhum registro encontrado." 
+					paginator = "true" paginatorPosition = "bottom" 
+					value = "#{feiranteArrecadacaoBean.feirantes}" var = "feirante" rows = "5">
+
+				<p:column headerText="Feirante" sortBy="#{feiranteArrecadacao.feirante.nomeFantasia}">
+					<h:outputText value="#{feirante.nomeFantasia}" />
+				</p:column>
+				
+				<p:column>
+					<p:selectBooleanButton id="situacao" value="#{feirante.situacaoArrecadacao}" 
+						onLabel="Pago" offLabel="Pendente" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:150px; margin-left:10px">		
+					</p:selectBooleanButton>
+				</p:column>
+
+				<f:facet name="footer">
+					<p:column>
+						<p:commandButton style = "text-align:center; margin-top: 0px" 
+							value = "Salvar" actionListener = "#{feiranteArrecadacaoBean.salvar}"
+							update = ":mensagemNovo :formNovo:painel :formListagem:tabelaArrecadacao" />
+					</p:column>
+					<p:column>
+						<p:commandButton style = "margin-top: 0px" value = "Fechar" oncomplete = "PF('dialogoNovo').hide();" />
+					</p:column>
+				</f:facet>
+				
+			</p:dataTable>
+			
+			</h:panelGrid>
+		</h:form>	
+	</p:dialog>
+	
+	<p:dialog header = "Arrecadação - Editar" widgetVar = "dialogoEditar" maximizable = "30px" width="45%"
+	 closable = "false" draggable = "false" modal = "true" resizable = "false" >
+		
+		<p:growl id = "mensagemEditar" />
+		<!-- Formulário de cadastro -->
+		<h:form id = "formEditar" >			
+		
+			<!-- Painel para alinhamento dos componentes -->
+			<h:panelGrid title = "Arrecadações" id = "painel"  style = "margin-bottom: 8px" cellpadding = "0">
+			
+			<p:outputLabel for="descricao" value="Descrição: ">
+				<p:inputText id="descricao" value="#{feiranteArrecadacaoBean.arrecadacao.descricao}" size="50" style="margin-bottom: 3px"/>
+			</p:outputLabel>
+			
+			<p:row>
+			<p:column>
+				<p:outputLabel for="data" value="Data: ">
+					<p:calendar id="data"
+						value="#{feiranteArrecadacaoBean.arrecadacao.data}" size="10" locale="pt_BR" />
+				</p:outputLabel>
+			</p:column>
+			<p:column>
+				<p:outputLabel for="valor" value="Valor: " style="margin-left: 10px">
+					<p:inputText id="valor" value="#{feiranteArrecadacaoBean.arrecadacao.valor}" size="10"/>
+				</p:outputLabel>
+			</p:column>
+			</p:row>	
+					
+				<p:dataTable id = "tabelaArrecadacaoRegistro" emptyMessage = "Nenhum registro encontrado." 
+					paginator = "true" paginatorPosition = "bottom" 
+					value = "#{feiranteArrecadacaoBean.arrecadacaoPorData}" var = "feiranteArrecadacao" rows = "5">
+
+				<p:column headerText="Feirante" sortBy="#{feiranteArrecadacao.feirante.nomeFantasia}">
+					<h:outputText value="#{feiranteArrecadacao.feirante.nomeFantasia}" />
+				</p:column>
+				
+				<p:column>
+					<p:selectBooleanButton id="situacao" value="#{feiranteArrecadacao.situacao}" 
+						onLabel="Compareceu" offLabel="Faltou" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:150px; margin-left:10px">		
+					</p:selectBooleanButton>
+				</p:column>
+				
+				<f:facet name="footer">
+					<p:column>
+						<p:commandButton style = "text-align:center; margin-top: 0px" 
+							value = "Salvar" actionListener = "#{feiranteArrecadacaoBean.salvarEdicao}"
+							update = ":mensagemEditar :formEditar:painel :formListagem:tabelaArrecadacao" />
+					</p:column>
+					<p:column>
+						<p:commandButton style = "margin-top: 0px" value = "Fechar" oncomplete = "PF('dialogoEditar').hide();" />
+					</p:column>
+				</f:facet>
+				
+			</p:dataTable>
+			
+			</h:panelGrid>
+		</h:form>	
+	</p:dialog>
+	
+</body>
+	<!-- Importação do Template -->
+	<p:layoutUnit position = "north">
+		<ui:include src = "/templates/rodape.xhtml" />
+	</p:layoutUnit>
+</html>

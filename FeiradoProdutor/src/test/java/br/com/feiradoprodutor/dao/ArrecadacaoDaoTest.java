@@ -9,18 +9,12 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import br.com.feiradoprodutor.domain.Arrecadacao;
-import br.com.feiradoprodutor.domain.Feirante;
 
 public class ArrecadacaoDaoTest {
 	
 	@Test
 	@Ignore
 	public void salvar(){
-		
-		Long codigoFeirante = 1L;
-		
-		FeiranteDAO feiranteDAO = new FeiranteDAO();
-		Feirante feirante = feiranteDAO.buscar(codigoFeirante);
 		
 		Arrecadacao arrecadacao = new Arrecadacao();
 		
@@ -46,8 +40,6 @@ public class ArrecadacaoDaoTest {
 		arrecadacao.setDescricao("Descrição Teste3");
 		arrecadacao.setData(dataSql);
 		arrecadacao.setValor(10.00);
-		arrecadacao.setSituacao(true);
-		arrecadacao.setFeirante(feirante);
 		
 		ArrecadacaoDAO arrecadacaoDAO = new ArrecadacaoDAO();
 		arrecadacaoDAO.salvar(arrecadacao);
@@ -67,8 +59,6 @@ public class ArrecadacaoDaoTest {
 			System.out.println("Descrição: " + arrecadacao.getDescricao());
 			System.out.println("Data: " + arrecadacao.getData());
 			System.out.println("Valor: " + arrecadacao.getValor());
-			System.out.println("Feirante: " + arrecadacao.getFeirante().getNomeFantasia());
-			System.out.println("Situação: " + arrecadacao.getSituacao());
 		}
 	}
 	
@@ -89,8 +79,6 @@ public class ArrecadacaoDaoTest {
 			System.out.println("Descrição: " + arrecadacao.getDescricao());
 			System.out.println("Data: " + arrecadacao.getData());
 			System.out.println("Valor: " + arrecadacao.getValor());
-			System.out.println("Feirante: " + arrecadacao.getFeirante().getNomeFantasia());
-			System.out.println("Situação: " + arrecadacao.getSituacao());
 		}
 	}
 	
@@ -109,19 +97,13 @@ public class ArrecadacaoDaoTest {
 		System.out.println("Descrição: " + arrecadacao.getDescricao());
 		System.out.println("Data: " + arrecadacao.getData());
 		System.out.println("Valor: " + arrecadacao.getValor());
-		System.out.println("Feirante: " + arrecadacao.getFeirante().getNomeFantasia());
-		System.out.println("Situação: " + arrecadacao.getSituacao());
 			
 	}
 	
 	@Test
 	@Ignore
 	public void editar(){
-		Long codigoFeirante = 1L;
 		Long codigoArrecadacao = 2L;
-		
-		FeiranteDAO feiranteDAO = new FeiranteDAO();
-		Feirante feirante = feiranteDAO.buscar(codigoFeirante);
 		
 		ArrecadacaoDAO arrecadacaoDAO = new ArrecadacaoDAO();
 		Arrecadacao arrecadacao = arrecadacaoDAO.buscar(codigoArrecadacao);
@@ -131,8 +113,6 @@ public class ArrecadacaoDaoTest {
 		System.out.println("Descrição: " + arrecadacao.getDescricao());
 		System.out.println("Data: " + arrecadacao.getData());
 		System.out.println("Valor: " + arrecadacao.getValor());
-		System.out.println("Feirante: " + arrecadacao.getFeirante().getNomeFantasia());
-		System.out.println("Situação: " + arrecadacao.getSituacao());
 		
 		//Formatando a Data
 				SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
@@ -155,8 +135,6 @@ public class ArrecadacaoDaoTest {
 		arrecadacao.setDescricao("Descrição Teste Editado");
 		arrecadacao.setData(dataSql);
 		arrecadacao.setValor(7.00);
-		arrecadacao.setSituacao(false);
-		arrecadacao.setFeirante(feirante);
 		
 		arrecadacaoDAO.editar(arrecadacao);
 		
@@ -165,8 +143,6 @@ public class ArrecadacaoDaoTest {
 		System.out.println("Descrição: " + arrecadacao.getDescricao());
 		System.out.println("Data: " + arrecadacao.getData());
 		System.out.println("Valor: " + arrecadacao.getValor());
-		System.out.println("Feirante: " + arrecadacao.getFeirante().getNomeFantasia());
-		System.out.println("Situação: " + arrecadacao.getSituacao());
 	}
 
 }
