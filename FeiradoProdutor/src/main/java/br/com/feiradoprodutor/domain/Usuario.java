@@ -2,29 +2,37 @@ package br.com.feiradoprodutor.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Transient;
 
 @SuppressWarnings("serial")
 @Entity
 public class Usuario extends GenericDomain{
-	@Column(length = 32, nullable = false)
-	private String usuario;
+	
+	@Column(length = 30, nullable = false)
+	private String nome;
+	
+	@Column(length = 50, nullable = false, unique = true)
+	private String email;
 	
 	@Column(length = 32, nullable = false)
 	private String senha;
 	
-	@Transient
-	private String senhaSemCriptografia;
-
 	@Column(nullable = false)
-	private Boolean ativo;
+	private boolean situacao = true;
 
-	public String getUsuario() {
-		return usuario;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getSenha() {
@@ -35,20 +43,12 @@ public class Usuario extends GenericDomain{
 		this.senha = senha;
 	}
 
-	public String getSenhaSemCriptografia() {
-		return senhaSemCriptografia;
+	public boolean isSituacao() {
+		return situacao;
 	}
 
-	public void setSenhaSemCriptografia(String senhaSemCriptografia) {
-		this.senhaSemCriptografia = senhaSemCriptografia;
-	}
-
-	public Boolean getAtivo() {
-		return ativo;
-	}
-
-	public void setAtivo(Boolean ativo) {
-		this.ativo = ativo;
+	public void setSituacao(boolean situacao) {
+		this.situacao = situacao;
 	}
 	
 	

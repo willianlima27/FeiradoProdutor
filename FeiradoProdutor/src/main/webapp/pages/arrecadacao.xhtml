@@ -63,7 +63,9 @@
 				
 							<!-- Coluna "Valor" -->
 							<p:column headerText = "Valor" sortBy="#{arrecadacao.valor}">
-								<h:outputText value = "#{arrecadacao.valor}" />
+								<h:outputText value = "R$ #{arrecadacao.valor}">
+									<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+								</h:outputText>
 							</p:column>
 				
 							<!-- Coluna de opções -->
@@ -120,7 +122,9 @@
 			</p:column>
 			<p:column>
 				<p:outputLabel for="valor" value="Valor: " style="margin-left: 10px">
-					<p:inputText id="valor" value="#{feiranteArrecadacaoBean.arrecadacao.valor}" size="10"/>
+					<p:inputText id="valor" value="#{feiranteArrecadacaoBean.arrecadacao.valor}" size="10">
+						<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+					</p:inputText>
 				</p:outputLabel>
 			</p:column>
 			</p:row>	
@@ -179,7 +183,9 @@
 			</p:column>
 			<p:column>
 				<p:outputLabel for="valor" value="Valor: " style="margin-left: 10px">
-					<p:inputText id="valor" value="#{feiranteArrecadacaoBean.arrecadacao.valor}" size="10"/>
+					<p:inputText id="valor" value="#{feiranteArrecadacaoBean.arrecadacao.valor}" size="10">
+						<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+					</p:inputText>
 				</p:outputLabel>
 			</p:column>
 			</p:row>	

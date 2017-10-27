@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--  h componentes nativos do HTML -->
+<!--  f componentes nativos do JSF -->
+<!--  p componentes nativos do PrimeFaces -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:o="http://omnifaces.org/ui">
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<h:outputStylesheet library="css" name="estilo.css" />
+<h:outputStylesheet library="css" name="style.css" />
+	<title>Usuário</title>
+</h:head>
+
+<!-- Importação do Template Padrão -->
+	<p:layoutUnit position = "north">
+		<ui:include src = "/templates/template.xhtml" />
+	</p:layoutUnit>
+	
+	<body>
+
+		<!-- Alinhamento da página -->
+		<div align = "center">
+	
+			<!-- Receptor de mansagens do Bean -->
+			<p:growl id = "mensagem" />
+	
+			<!-- Definição do formulário de listagem -->
+			<h:form id = "formListagem">
+				<p:layoutUnit position = "center">
+				
+					<!-- Definição do painel contêiner -->
+					<p:panel header = "Usuários - Listagem">
+					
+					<!-- Botão "Novo" para manter feirante -->
+					<f:facet name = "header">
+						<p:commandButton icon="ui-icon-plusthick" actionListener = "#{usuarioBean.novo}"
+							oncomplete = "PF('dialogo').show();" update = ":mensagem :formCadastro:painel" >
+							<f:actionListener type = "org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+						</p:commandButton>
+					</f:facet>
+
+						<!-- Definição da tabela -->
+						<p:dataTable id = "tabelaUsuarios" emptyMessage = "Nenhum usuário encontrado." 
+							paginator = "true" paginatorPosition = "bottom" value = "#{usuarioBean.usuarios}" 
+							var = "usuario" rows = "10">
+					
+							<!-- Coluna "Nome" do usuário -->
+							<p:column headerText = "Nome" sortBy = "#{usuario.nome}">
+								<h:outputText value = "#{usuario.nome}" />
+							</p:column>
+				
+							<!-- Coluna "Email" -->
+							<p:column headerText = "E-mail" sortBy = "#{usuario.email}">
+								<h:outputText value = "#{usuario.email}" />
+							</p:column>
+							
+							<p:column headerText="Situação" style="text-align:center">
+								<p:selectBooleanButton disabled="true" id="situacao" value="#{usuario.situacao}" 
+									onLabel="Ativo" offLabel="Inativo" onIcon="ui-icon-check" offIcon="ui-icon-close" >		
+								</p:selectBooleanButton>
+							</p:column>
+				
+							<!-- Coluna de opções -->
+							<p:column style="text-align:center" width = "160" headerText = "Opções" >
+					
+								<!-- Botão "Editar" -->
+								<p:commandButton icon = "ui-icon-pencil" actionListener = "#{usuarioBean.editar}" 
+									update = ":formCadastro:painel" oncomplete = "PF('dialogo').show();">									
+									<f:attribute name = "usuarioSelecionado" value="#{usuario}"/>
+									<f:actionListener type = "org.omnifaces.eventlistener.ResetInputAjaxActionListener" />										
+								</p:commandButton>
+					
+								<!-- Botão "Excluir" -->
+								<p:commandButton icon = "ui-icon-trash" actionListener = "#{usuarioBean.excluir}"
+									update = ":mensagem :formListagem:tabelaUsuarios">
+									<p:confirm header = "Confirmação"	message = "Deseja excluir o Usuário?" icon = "ui-icon-alert" />
+										<f:attribute name = "usuarioSelecionado" value = "#{usuario}"/>			
+								</p:commandButton>
+							</p:column>
+				
+						</p:dataTable>
+						
+					<!-- Diálogo padrão para exclusão -->
+					<p:confirmDialog global = "true">
+						<p:commandButton value = "Sim" type = "button"
+						styleClass = "ui-confirmdialog-yes" icon = "ui-icon-check" />
+						<p:commandButton value = "Não" type = "button"
+						styleClass = "ui-confirmdialog-no" icon = "ui-icon-close" />
+					</p:confirmDialog>
+				
+				</p:panel>
+			</p:layoutUnit>
+		</h:form>
+	</div>
+	
+	<!-- Diálogo de Cadastramento -->
+	<p:dialog header = "Usuário - Cadastro" widgetVar = "dialogo" maximizable = "30px" width="45%"
+	 closable = "false" draggable = "false" modal = "true" resizable = "false">
+		
+		<p:growl id = "msgs" />
+		<!-- Formulário de cadastro -->
+		<h:form id = "formCadastro">
+		
+			<!-- Painel para alinhamento dos componentes -->
+			<h:panelGrid title = "Usuários" id = "painel"  style = "margin-bottom: 8px" cellpadding = "0">
+				
+				<p:row>
+					<p:selectBooleanButton styleClass="label" id="situacao" value="#{usuarioBean.usuario.situacao}" 
+						onLabel="Ativo" offLabel="Inativo" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:80px; margin-left:10px">		
+					</p:selectBooleanButton>
+				</p:row>
+
+				<!-- Linha "Nome Fantasia" -->
+				<p:row>
+					<p:outputLabel styleClass="label" value = "Nome:"/>
+				</p:row>
+				<p:row>
+					<p:inputText style = "margin-left: 20px" maxlength = "30" size = "55" 
+						value = "#{usuarioBean.usuario.nome}"/>
+				</p:row>
+				
+				<!-- Linha Nome Completo -->
+				<p:row>
+					<p:outputLabel styleClass="label" value = "email:"/>
+				</p:row>
+				<p:row>
+					<p:inputText style = "margin-left: 20px" maxlength = "50" size = "55" 
+						value = "#{usuarioBean.usuario.email}"/>
+				</p:row>
+				<p:row>
+					<p:outputLabel styleClass="label" for="senha" value="Senha:" />
+				</p:row>
+				
+				<p:row>
+					<p:password id="senha" style = "margin-left: 20px" maxlength = "30" size = "20"
+						value="#{usuarioBean.usuario.senha}" required="true"
+						validatorMessage="Informe uma senha mínimo 8 caracteres)">
+						<f:validateLength minimum="8" maximum="32" />
+					</p:password>
+				</p:row>
+        	</h:panelGrid>
+
+			<h:panelGrid>
+				<p:row>
+					<p:column>
+						<p:commandButton style = "margin-left: 240px; margin-top: 0px" 
+							value = "Salvar" actionListener = "#{usuarioBean.salvar}"
+							update = ":mensagem :formCadastro:painel :formListagem:tabelaUsuarios" />
+					</p:column>
+					<p:column>
+						<p:commandButton style = "margin-top: 0px" value = "Fechar" oncomplete = "PF('dialogo').hide();" />
+					</p:column>
+				</p:row>
+			</h:panelGrid>
+		</h:form>	
+	</p:dialog>
+	
+	</body>
+	<!-- Importação do Template -->
+	<p:layoutUnit position = "north">
+		<ui:include src = "/templates/rodape.xhtml" />
+	</p:layoutUnit>
+</html>

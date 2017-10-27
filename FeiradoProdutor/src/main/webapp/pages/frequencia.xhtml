@@ -147,12 +147,13 @@
 		
 			<!-- Painel para alinhamento dos componentes -->
 			<h:panelGrid title = "Frequências" id = "painel"  style = "margin-bottom: 8px" cellpadding = "0">
+			<p:column>
+				<p:outputLabel for="data" value="Data: ">
+					<p:calendar id="data"
+						value="#{feiranteFrequenciaBean.frequencia.data}" size="10" locale="pt_BR" />
+				</p:outputLabel>
+			</p:column>
 			
-			<p:outputLabel for="data" value="Data: ">
-				<p:calendar id="data"
-					value="#{feiranteFrequenciaBean.frequencia.data}" size="10" locale="pt_BR" />
-			</p:outputLabel>	
-					
 				<p:dataTable id = "tabelaFrequenciaRegistro" emptyMessage = "Nenhum registro encontrado." 
 					paginator = "true" paginatorPosition = "bottom" 
 					value = "#{feiranteFrequenciaBean.frequenciaPorData}" var = "feiranteFrequencia" rows = "5">
