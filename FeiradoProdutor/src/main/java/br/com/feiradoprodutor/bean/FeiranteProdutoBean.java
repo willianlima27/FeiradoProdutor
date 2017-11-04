@@ -2,6 +2,7 @@ package br.com.feiradoprodutor.bean;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,6 @@ import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
-import org.primefaces.component.datatable.DataTable;
 
 import br.com.feiradoprodutor.dao.FeiranteDAO;
 import br.com.feiradoprodutor.dao.FeiranteProdutoDAO;
@@ -186,24 +186,47 @@ public class FeiranteProdutoBean implements Serializable{
 		}
 	}
 	
-	public void imprimir(){
-		try{
-			DataTable tabela = (DataTable) Faces.getViewRoot().findComponent("formListagemProduto:tabelaProduto");
-			Map<String, Object> parametros = tabela.getFilters();		
+	public void imprimirProdutosPorFeirante(){
 		
-			String caminho = Faces.getRealPath("/reports/feirantesprodutos.jasper");
-					
+		try{
+			//Caminho do arquivo Jasper
+			String caminho = Faces.getRealPath("/reports/produtosPorFeirante.jasper");
+			//recebe os parâmetros
+			Map<String, Object> parametros = new HashMap<>();
+			//Realiza a conexão com o Banco
 			Connection conexao = HibernateUtil.getConexao();
-					
+			//Recebe um relatório populado
 			JasperPrint relatorio = JasperFillManager.fillReport(caminho, parametros, conexao);
-			
+			//Habilita a impressão
 			JasperPrintManager.printReport(relatorio, true);
+			
 		}catch (JRException erro){
 			Messages.addGlobalError("Ocorreu um erro ao tentar gerar o relatório");
 			erro.printStackTrace();
 		}
+			
 	}
 	
+	public void imprimirFeirantesPorProduto(){
+		
+		try{
+			//Caminho do arquivo Jasper
+			String caminho = Faces.getRealPath("/reports/feirantesPorProduto.jasper");
+			//recebe os parâmetros
+			Map<String, Object> parametros = new HashMap<>();
+			//Realiza a conexão com o Banco
+			Connection conexao = HibernateUtil.getConexao();
+			//Recebe um relatório populado
+			JasperPrint relatorio = JasperFillManager.fillReport(caminho, parametros, conexao);
+			//Habilita a impressão
+			JasperPrintManager.printReport(relatorio, true);
+			
+		}catch (JRException erro){
+			Messages.addGlobalError("Ocorreu um erro ao tentar gerar o relatório");
+			erro.printStackTrace();
+		}
+			
+	}
 	
 
 }

@@ -2,6 +2,7 @@ package br.com.feiradoprodutor.bean;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,6 @@ import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
-import org.primefaces.component.datatable.DataTable;
 
 import br.com.feiradoprodutor.dao.ProdutoDAO;
 import br.com.feiradoprodutor.domain.Produto;
@@ -29,6 +29,7 @@ public class ProdutoBean implements Serializable{
 	
 	private Produto produto;
 	private List<Produto> produtos;
+	private List<Produto> filtroProdutos;
 	
 	public Produto getProduto() {
 		return produto;
@@ -42,7 +43,12 @@ public class ProdutoBean implements Serializable{
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
 	}
-	
+	public List<Produto> getFiltroProdutos() {
+		return filtroProdutos;
+	}
+	public void setFiltroProdutos(List<Produto> filtroProdutos) {
+		this.filtroProdutos = filtroProdutos;
+	}
 	@PostConstruct
 	public void listar() {
 		try {
@@ -110,21 +116,24 @@ public class ProdutoBean implements Serializable{
 	}
 	
 	public void imprimir(){
-		try{
-			DataTable tabela = (DataTable) Faces.getViewRoot().findComponent("formListagem:tabelaProdutos");
-			Map<String, Object> parametros = tabela.getFilters();		
 		
+		try{
+			//Caminho do arquivo Jasper
 			String caminho = Faces.getRealPath("/reports/produtos.jasper");
-					
+			//recebe os parâmetros
+			Map<String, Object> parametros = new HashMap<>();
+			//Realiza a conexão com o Banco
 			Connection conexao = HibernateUtil.getConexao();
-					
+			//Recebe um relatório populado
 			JasperPrint relatorio = JasperFillManager.fillReport(caminho, parametros, conexao);
-			
+			//Habilita a impressão
 			JasperPrintManager.printReport(relatorio, true);
+			
 		}catch (JRException erro){
 			Messages.addGlobalError("Ocorreu um erro ao tentar gerar o relatório");
 			erro.printStackTrace();
 		}
-	}	
+			
+	}
 	
 }

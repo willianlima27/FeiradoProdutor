@@ -11,8 +11,6 @@
 	  xmlns:o="http://omnifaces.org/ui">
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<h:outputStylesheet library="css" name="estilo.css" />
-<h:outputStylesheet library="css" name="style.css" />
 	<title>Usuário</title>
 </h:head>
 
@@ -38,8 +36,8 @@
 					
 					<!-- Botão "Novo" para manter feirante -->
 					<f:facet name = "header">
-						<p:commandButton icon="ui-icon-plusthick" actionListener = "#{usuarioBean.novo}"
-							oncomplete = "PF('dialogo').show();" update = ":mensagem :formCadastro:painel" >
+						<p:commandButton icon="ui-icon-plusthick" title="Novo" actionListener = "#{usuarioBean.novo}"
+							oncomplete = "PF('dialogo').show();" update = ":mensagem :formCadastro:painel" styleClass="commandButton">
 							<f:actionListener type = "org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 						</p:commandButton>
 					</f:facet>
@@ -47,15 +45,27 @@
 						<!-- Definição da tabela -->
 						<p:dataTable id = "tabelaUsuarios" emptyMessage = "Nenhum usuário encontrado." 
 							paginator = "true" paginatorPosition = "bottom" value = "#{usuarioBean.usuarios}" 
-							var = "usuario" rows = "10">
+							var = "usuario" rows = "10" widgetVar="usuariosTable" filteredValue="#{usuarioBean.filtroUsuarios}">
+							
+							<f:facet name="header">
+          					  <p:outputPanel style="text-align: left">
+                				<h:outputText value="Pesquisar: " />
+              					  <p:inputText id="globalFilter" onkeyup="PF('usuariosTable').filter()" style="width:150px"/>
+          					  </p:outputPanel>
+        					</f:facet>
 					
+							<!-- Coluna "Código" do usuário -->
+							<p:column headerText = "Código" sortBy = "#{usuario.codigo}" filterBy="#{usuario.codigo}" style="width:100px; text-align:center">
+								<h:outputText value = "#{usuario.codigo}" />
+							</p:column>
+							
 							<!-- Coluna "Nome" do usuário -->
-							<p:column headerText = "Nome" sortBy = "#{usuario.nome}">
+							<p:column headerText = "Nome" sortBy = "#{usuario.nome}" filterBy="#{usuario.nome}">
 								<h:outputText value = "#{usuario.nome}" />
 							</p:column>
 				
 							<!-- Coluna "Email" -->
-							<p:column headerText = "E-mail" sortBy = "#{usuario.email}">
+							<p:column headerText = "E-mail" sortBy = "#{usuario.email}" filterBy="#{usuario.email}">
 								<h:outputText value = "#{usuario.email}" />
 							</p:column>
 							
@@ -70,14 +80,14 @@
 					
 								<!-- Botão "Editar" -->
 								<p:commandButton icon = "ui-icon-pencil" actionListener = "#{usuarioBean.editar}" 
-									update = ":formCadastro:painel" oncomplete = "PF('dialogo').show();">									
+									update = ":formCadastro:painel" oncomplete = "PF('dialogo').show();" title="Editar">									
 									<f:attribute name = "usuarioSelecionado" value="#{usuario}"/>
 									<f:actionListener type = "org.omnifaces.eventlistener.ResetInputAjaxActionListener" />										
 								</p:commandButton>
 					
 								<!-- Botão "Excluir" -->
 								<p:commandButton icon = "ui-icon-trash" actionListener = "#{usuarioBean.excluir}"
-									update = ":mensagem :formListagem:tabelaUsuarios">
+									update = ":mensagem :formListagem:tabelaUsuarios" title="Excluir">
 									<p:confirm header = "Confirmação"	message = "Deseja excluir o Usuário?" icon = "ui-icon-alert" />
 										<f:attribute name = "usuarioSelecionado" value = "#{usuario}"/>			
 								</p:commandButton>

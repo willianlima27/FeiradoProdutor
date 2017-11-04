@@ -11,8 +11,6 @@
 	  xmlns:o="http://omnifaces.org/ui">
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<h:outputStylesheet library="css" name="estilo.css" />
-<h:outputStylesheet library="css" name="style.css" />
 	<title>Feirante</title>
 </h:head>
 
@@ -38,8 +36,8 @@
 					
 					<!-- Botão "Novo" para manter feirante -->
 					<f:facet name = "header">
-						<p:commandButton value = "Novo" actionListener = "#{feiranteBean.novo}"
-							oncomplete = "PF('dialogo').show();" update = ":mensagem :formCadastro:painel" >
+						<p:commandButton icon="ui-icon-plusthick" title="Novo" actionListener="#{feiranteBean.novo}" 
+							oncomplete = "PF('dialogo').show();" update=":mensagem :formCadastro:painel" styleClass="commandButton">
 							<f:actionListener type = "org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 						</p:commandButton>
 					</f:facet>
@@ -47,25 +45,37 @@
 						<!-- Definição da tabela -->
 						<p:dataTable id = "tabelaFeirantes" emptyMessage = "Nenhum feirante encontrado." 
 							paginator = "true" paginatorPosition = "bottom" value = "#{feiranteBean.feirantes}" 
-							var = "feirante" rows = "10">
+							var = "feirante" rows = "10" widgetVar="feirantesTable" filteredValue="#{feiranteBean.filtroFeirantes}">
+							
+							<f:facet name="header">
+          					  <p:outputPanel style="text-align: left">
+                				<h:outputText value="Pesquisar: " />
+              					  <p:inputText id="globalFilter" onkeyup="PF('feirantesTable').filter()" style="width:150px"/>
+          					  </p:outputPanel>
+        					</f:facet>
 					
+							<!-- Coluna "Codigo" do feirante -->
+							<p:column headerText = "Código" sortBy = "#{feirante.codigo}" filterBy="#{feirante.codigo}" style="width:100px; text-align:center">
+								<h:outputText value = "#{feirante.codigo}" />
+							</p:column>
+							
 							<!-- Coluna "Nome" do feirante -->
-							<p:column headerText = "Nome" sortBy = "#{feirante.nomeFantasia}">
+							<p:column headerText = "Nome" sortBy = "#{feirante.nomeFantasia}" filterBy="#{feirante.nomeFantasia}">
 								<h:outputText value = "#{feirante.nomeFantasia}" />
 							</p:column>
 				
 							<!-- Coluna "Nome Completo" -->
-							<p:column headerText = "Razão Social" sortBy = "#{feirante.nomeCompleto}">
+							<p:column headerText = "Razão Social" sortBy = "#{feirante.nomeCompleto}" filterBy="#{feirante.nomeCompleto}">
 								<h:outputText value = "#{feirante.nomeCompleto}" />
 							</p:column>
 				
 							<!-- Coluna "CPF" -->
-							<p:column headerText = "CPF/CNPJ" sortBy = "#{feirante.cpf}" style = "width:150px">
+							<p:column headerText = "CPF/CNPJ" sortBy = "#{feirante.cpf}" style = "width:150px" filterBy="#{feirante.cpf}">
 								<h:outputText value = "#{feirante.cpf}" />
 							</p:column>
 							
 							<!-- Coluna "Produtos" -->
-							<p:column style="text-align:center">
+							<p:column headerText="Produtos" style="text-align:center">
 							<!-- Botão de vinculação de produto ao feirante -->
 								<p:commandButton value = "Produtos" actionListener = "#{feiranteProdutoBean.selecionaFeirante}"
 									update = "formListagemProduto" oncomplete = "PF('dialogoProduto').show();"	 >
@@ -79,14 +89,14 @@
 					
 								<!-- Botão "Editar" -->
 								<p:commandButton icon = "ui-icon-pencil" actionListener = "#{feiranteBean.editar}" 
-									update = ":formCadastro:painel" oncomplete = "PF('dialogo').show();">									
+									update = ":formCadastro:painel" oncomplete = "PF('dialogo').show();" title="Editar">									
 									<f:attribute name = "feiranteSelecionado" value="#{feirante}"/>
 									<f:actionListener type = "org.omnifaces.eventlistener.ResetInputAjaxActionListener" />										
 								</p:commandButton>
 					
 								<!-- Botão "Excluir" -->
 								<p:commandButton icon = "ui-icon-trash" actionListener = "#{feiranteBean.excluir}"
-									update = ":mensagem :formListagem:tabelaFeirantes">
+									update = ":mensagem :formListagem:tabelaFeirantes" title="Excluir">
 									<p:confirm header = "Confirmação"	message = "Deseja excluir o Feirante?" icon = "ui-icon-alert" />
 										<f:attribute name = "feiranteSelecionado" value = "#{feirante}"/>			
 								</p:commandButton>

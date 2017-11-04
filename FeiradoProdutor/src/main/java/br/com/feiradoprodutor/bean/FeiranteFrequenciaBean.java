@@ -2,6 +2,8 @@ package br.com.feiradoprodutor.bean;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +15,6 @@ import javax.faces.event.ActionEvent;
 import org.hibernate.exception.ConstraintViolationException;
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
-import org.primefaces.component.datatable.DataTable;
 
 import br.com.feiradoprodutor.dao.FeiranteDAO;
 import br.com.feiradoprodutor.dao.FeiranteFrequenciaDAO;
@@ -40,6 +41,10 @@ public class FeiranteFrequenciaBean implements Serializable{
 	private List<FeiranteFrequencia> frequenciaPorData;
 	private List<Frequencia> frequencias;
 	private List<Feirante> feirantes;
+	private List<Frequencia> filtroFrequencias;
+	
+	private Date datainicio;
+	private Date datafim;
 
 	public FeiranteFrequencia getFeiranteFrequencia() {
 		return feiranteFrequencia;
@@ -95,6 +100,29 @@ public class FeiranteFrequenciaBean implements Serializable{
 
 	public void setFeirantes(List<Feirante> feirantes) {
 		this.feirantes = feirantes;
+	}
+	
+	public List<Frequencia> getFiltroFrequencias() {
+		return filtroFrequencias;
+	}
+
+	public void setFiltroFrequencias(List<Frequencia> filtroFrequencias) {
+		this.filtroFrequencias = filtroFrequencias;
+	}
+	public Date getDatainicio() {
+		return datainicio;
+	}
+
+	public void setDatainicio(Date datainicio) {
+		this.datainicio = datainicio;
+	}
+
+	public Date getDatafim() {
+		return datafim;
+	}
+
+	public void setDatafim(Date datafim) {
+		this.datafim = datafim;
 	}
 
 	@PostConstruct
@@ -205,21 +233,26 @@ public class FeiranteFrequenciaBean implements Serializable{
 	}
 	
 	public void imprimir(){
-		try{
-			DataTable tabela = (DataTable) Faces.getViewRoot().findComponent("formListagemProduto:tabelaProduto");
-			Map<String, Object> parametros = tabela.getFilters();		
 		
-			String caminho = Faces.getRealPath("/reports/feirantesprodutos.jasper");
-					
+		try{
+			//Caminho do arquivo Jasper
+			String caminho = Faces.getRealPath("/reports/feiranteFrequencia.jasper");
+			//recebe os parâmetros
+			Map<String, Object> parametros = new HashMap<>();
+			parametros.put("data_inicio", this.datainicio);
+			parametros.put("data_fim", this.datafim);
+			//Realiza a conexão com o Banco
 			Connection conexao = HibernateUtil.getConexao();
-					
+			//Recebe um relatório populado
 			JasperPrint relatorio = JasperFillManager.fillReport(caminho, parametros, conexao);
-			
+			//Habilita a impressão
 			JasperPrintManager.printReport(relatorio, true);
+			
 		}catch (JRException erro){
 			Messages.addGlobalError("Ocorreu um erro ao tentar gerar o relatório");
 			erro.printStackTrace();
 		}
+			
 	}
 	
 

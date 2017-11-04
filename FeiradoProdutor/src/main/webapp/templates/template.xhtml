@@ -10,6 +10,7 @@
 	<!-- Titulo default -->
 	<title><ui:insert name="titulo">Feira do Produtor</ui:insert></title>
 	<h:outputStylesheet library="css" name="style.css" />
+
 </h:head>
 <h:body>
 
@@ -34,10 +35,18 @@
 						<p:menuitem value="Arrecadação" outcome="/pages/arrecadacao" />
 					</p:submenu>
 					<p:submenu label="Relatórios" >
-						<p:menuitem value="Cadastros" />
-						<p:menuitem value="Controles" />
+						<p:submenu label="Feirantes">
+							<p:menuitem value="Listagem de Feirantes" actionListener="#{feiranteBean.imprimir}"/>
+							<p:menuitem value="Feirantes por Produto" actionListener="#{feiranteProdutoBean.imprimirFeirantesPorProduto}"/>
+						</p:submenu>
+						<p:submenu label="Produtos">
+							<p:menuitem value="Listagem de Produtos" actionListener="#{produtoBean.imprimir}"/>
+							<p:menuitem value="Produtos por Feirante" actionListener="#{feiranteProdutoBean.imprimirProdutosPorFeirante}"/>
+						</p:submenu>
+						<p:menuitem value="Frequência" actionListener="#{feiranteFrequenciaBean.imprimir}"/>
+						<p:menuitem value="Arrecadação" actionListener="#{feiranteArrecadacaoBean.imprimir}"/>
 					</p:submenu>
-					<p:menuitem value="Sair" url="/j_spring_security_logout" />
+					<p:menuitem value="Sair" outcome="/pages/autenticacao" actionListener="#{autenticacaoBean.sair}" />
 				</p:menubar>
 			</h:form>
 		</div>

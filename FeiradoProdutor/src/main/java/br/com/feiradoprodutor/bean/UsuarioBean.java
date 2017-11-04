@@ -21,6 +21,7 @@ public class UsuarioBean implements Serializable{
 	
 	private Usuario usuario;
 	private List<Usuario> usuarios;
+	private List<Usuario> filtroUsuarios;
 	
 	public Usuario getUsuario() {
 		return usuario;
@@ -33,6 +34,12 @@ public class UsuarioBean implements Serializable{
 	}
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
+	}
+	public List<Usuario> getFiltroUsuarios() {
+		return filtroUsuarios;
+	}
+	public void setFiltroUsuarios(List<Usuario> filtroUsuarios) {
+		this.filtroUsuarios = filtroUsuarios;
 	}
 	
 	@PostConstruct

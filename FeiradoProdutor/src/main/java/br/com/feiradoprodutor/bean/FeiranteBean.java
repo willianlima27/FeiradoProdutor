@@ -1,19 +1,23 @@
 package br.com.feiradoprodutor.bean;
 
+import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
-import org.primefaces.component.datatable.DataTable;
 
 import br.com.feiradoprodutor.dao.CidadeDAO;
 import br.com.feiradoprodutor.dao.EstadoDAO;
@@ -26,6 +30,9 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperPrintManager;
+import net.sf.jasperreports.engine.JasperRunManager;
+
+
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -36,6 +43,7 @@ public class FeiranteBean implements Serializable{
 	private Estado estado;
 	
 	private List<Feirante> feirantes;
+	private List<Feirante> filtroFeirantes;
 	private List<Estado> estados;
 	private List<Cidade> cidades;
 	
@@ -74,6 +82,14 @@ public class FeiranteBean implements Serializable{
 	}
 	public void setEstados(List<Estado> estados) {
 		this.estados = estados;
+	}
+	
+	public List<Feirante> getFiltroFeirantes() {
+		return filtroFeirantes;
+	}
+
+	public void setFiltroFeirantes(List<Feirante> filtroFeirantes) {
+		this.filtroFeirantes = filtroFeirantes;
 	}
 
 	@PostConstruct
@@ -172,21 +188,49 @@ public class FeiranteBean implements Serializable{
 	}
 	
 	public void imprimir(){
-		try{
-			DataTable tabela = (DataTable) Faces.getViewRoot().findComponent("formListagem:tabelaFeirantes");
-			Map<String, Object> parametros = tabela.getFilters();		
 		
+		try{
+			//Caminho do arquivo Jasper
 			String caminho = Faces.getRealPath("/reports/feirantes.jasper");
-					
+			//recebe os parâmetros
+			Map<String, Object> parametros = new HashMap<>();
+			//Realiza a conexão com o Banco
 			Connection conexao = HibernateUtil.getConexao();
-					
+			//Recebe um relatório populado
 			JasperPrint relatorio = JasperFillManager.fillReport(caminho, parametros, conexao);
-			
+			//Habilita a impressão
 			JasperPrintManager.printReport(relatorio, true);
+			
 		}catch (JRException erro){
 			Messages.addGlobalError("Ocorreu um erro ao tentar gerar o relatório");
 			erro.printStackTrace();
 		}
+			
 	}
+	
+	public static void executarRelatorio() throws Exception {
+		
+		String caminho = Faces.getRealPath("/reports/feirantes.jasper");
+		Connection conexao = HibernateUtil.getConexao();
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpServletResponse response = (HttpServletResponse) context
+		.getExternalContext().getResponse();
+		Map<String, Object> parametros = new HashMap<>();
+		// pega o caminho do arquivo .jasper da aplicação
+		InputStream reportStream = context.getExternalContext()
+		.getResourceAsStream(caminho);
+		// envia a resposta com o MIME Type
+		response.setContentType("application/pdf");
+		ServletOutputStream servletOutputStream = response.getOutputStream();
+		// envia parametros para o relatorio
+		// envia para o navegador o PDF gerado
+		JasperRunManager.runReportToPdfStream(reportStream,
+				servletOutputStream, parametros, conexao);
+		servletOutputStream.flush();
+		servletOutputStream.close();
+		context.responseComplete();
+		conexao.close();
+	}
+	
 
 }

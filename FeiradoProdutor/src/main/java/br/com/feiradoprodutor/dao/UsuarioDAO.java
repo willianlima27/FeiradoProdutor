@@ -16,12 +16,9 @@ public class UsuarioDAO extends GenericDAO<Usuario>{
 
 		try {
 			Criteria consulta = sessao.createCriteria(Usuario.class);
-			//criação do apelido da classe Pessoa para chamada dentro do método
-			consulta.createAlias("usuario", "user");
-
 			//comparação de igualdade entre o email recebido pelo método 
 			// e o email presente na tabela usuario
-			consulta.add(Restrictions.eq("user.email", email));
+			consulta.add(Restrictions.eq("email", email));
 
 			//algortimo de criptografia
 			//utilização do algortimo md5

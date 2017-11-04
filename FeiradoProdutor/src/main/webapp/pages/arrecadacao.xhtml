@@ -11,8 +11,6 @@
 	  xmlns:o="http://omnifaces.org/ui">
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<h:outputStylesheet library="css" name="estilo.css" />
-<h:outputStylesheet library="css" name="style.css" />
 	<title>Arrecadacao</title>
 </h:head>
 
@@ -38,8 +36,8 @@
 					
 					<!-- Botão "Novo" para manter feirante -->
 					<f:facet name = "header">
-						<p:commandButton value = "Novo" actionListener = "#{feiranteArrecadacaoBean.novo}"
-							update = ":mensagem :formNovo:painel" oncomplete = "PF('dialogoNovo').show();"  >
+						<p:commandButton icon="ui-icon-plusthick" title="Novo" actionListener = "#{feiranteArrecadacaoBean.novo}"
+							update = ":mensagem :formNovo:painel" oncomplete = "PF('dialogoNovo').show();" styleClass="commandButton" >
 							<f:actionListener type = "org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 						</p:commandButton>
 					</f:facet>
@@ -47,22 +45,34 @@
 						<!-- Definição da tabela -->
 						<p:dataTable id = "tabelaArrecadacao" emptyMessage = "Nenhum registro de arrecadação foi encontrado." 
 							paginator = "true" paginatorPosition = "bottom" value = "#{feiranteArrecadacaoBean.arrecadacoes}" 
-							var = "arrecadacao" rows = "10">
-					
+							var = "arrecadacao" rows = "10" widgetVar="arrecadacoesTable" filteredValue="#{feiranteArrecadacaoBean.filtroArrecadacoes}">
+							
+							<f:facet name="header">
+          					  <p:outputPanel style="text-align: left">
+                				<h:outputText value="Pesquisar: " />
+              					  <p:inputText id="globalFilter" onkeyup="PF('arrecadacoesTable').filter()" style="width:150px"/>
+          					  </p:outputPanel>
+        					</f:facet>
+        					
+							<!-- Coluna "Código" -->
+							<p:column headerText = "Codigo" sortBy="#{arrecadacao.codigo}" filterBy="#{arrecadacao.codigo}" style="width:100px; text-align:center">
+								<h:outputText value = "#{arrecadacao.codigo}" />
+							</p:column>
+							
 							<!-- Coluna "Descrição" -->
-							<p:column headerText = "Descrição" sortBy="#{arrecadacao.descricao}">
+							<p:column headerText = "Descrição" sortBy="#{arrecadacao.descricao}" filterBy="#{arrecadacao.descricao}">
 								<h:outputText value = "#{arrecadacao.descricao}" />
 							</p:column>
 							
 							<!-- Coluna "Data" -->
-							<p:column headerText = "Data" sortBy = "#{arrecadacao.data}">
+							<p:column headerText = "Data" sortBy = "#{arrecadacao.data}" filterBy="#{arrecadacao.data}">
 								<h:outputText value = "#{arrecadacao.data}">
-									<f:convertDateTime locale="pt_BR"/>
+									<f:convertDateTime locale="pt_BR" />
 								</h:outputText>
 							</p:column>
 				
 							<!-- Coluna "Valor" -->
-							<p:column headerText = "Valor" sortBy="#{arrecadacao.valor}">
+							<p:column headerText = "Valor" sortBy="#{arrecadacao.valor}" filterBy="#{arrecadacao.valor}">
 								<h:outputText value = "R$ #{arrecadacao.valor}">
 									<f:convertNumber locale="pt_BR" minFractionDigits="2" />
 								</h:outputText>
@@ -71,14 +81,14 @@
 							<!-- Coluna de opções -->
 							<p:column style="text-align:center" width = "160" headerText = "Opções" >
 								<p:commandButton icon = "ui-icon-pencil" actionListener = "#{feiranteArrecadacaoBean.editar}" 
-									update = ":formEditar:painel" oncomplete = "PF('dialogoEditar').show();">									
+									update = ":formEditar:painel" oncomplete = "PF('dialogoEditar').show();" title="Editar">									
 									<f:attribute name = "arrecadacaoSelecionada" value="#{arrecadacao}"/>
 									<f:actionListener type = "org.omnifaces.eventlistener.ResetInputAjaxActionListener" />										
 								</p:commandButton>
 					
 								<!-- Botão "Excluir" -->
 								<p:commandButton icon = "ui-icon-trash" actionListener = "#{feiranteArrecadacaoBean.excluir}"
-									update = ":mensagem :formListagem:tabelaArrecadacao">
+									update = ":mensagem :formListagem:tabelaArrecadacao" title="Excluir">
 									<p:confirm header = "Confirmação"	message = "Deseja excluir o registro?" icon = "ui-icon-alert" />
 										<f:attribute name = "arrecadacaoSelecionada" value="#{arrecadacao}"/>		
 								</p:commandButton>
@@ -109,25 +119,36 @@
 			<!-- Painel para alinhamento dos componentes -->
 			<h:panelGrid title = "Arrecadações" id = "painel"  style = "margin-bottom: 8px" cellpadding = "0">
 			
-			<p:outputLabel for="descricao" value="Descrição: ">
-				<p:inputText id="descricao" value="#{feiranteArrecadacaoBean.arrecadacao.descricao}" size="50" style="margin-bottom: 3px"/>
-			</p:outputLabel>
+			<p:row>
+				<p:column>
+					<p:outputLabel for="descricao" value="Descrição: "/>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:inputText id="descricao" value="#{feiranteArrecadacaoBean.arrecadacao.descricao}" size="50" style="margin-bottom: 3px"/>
+				</p:column>
+			</p:row>
 			
 			<p:row>
-			<p:column>
-				<p:outputLabel for="data" value="Data: ">
-					<p:calendar id="data"
-						value="#{feiranteArrecadacaoBean.arrecadacao.data}" size="10" locale="pt_BR" />
-				</p:outputLabel>
-			</p:column>
-			<p:column>
-				<p:outputLabel for="valor" value="Valor: " style="margin-left: 10px">
-					<p:inputText id="valor" value="#{feiranteArrecadacaoBean.arrecadacao.valor}" size="10">
+				<p:column>
+					<p:outputLabel for="data" value="Data: "/>
+				</p:column>
+				<p:column>
+					<p:outputLabel for="valor" value="Valor: " style="margin-left: 90px"/>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+						<p:calendar id="data"
+							value="#{feiranteArrecadacaoBean.arrecadacao.data}" size="10" locale="pt_BR" />
+				</p:column>
+				<p:column>
+					<p:inputText id="valor" value="#{feiranteArrecadacaoBean.arrecadacao.valor}" size="10" style="margin-left:20px">
 						<f:convertNumber locale="pt_BR" minFractionDigits="2" />
 					</p:inputText>
-				</p:outputLabel>
-			</p:column>
-			</p:row>	
+				</p:column>
+			</p:row>
 					
 				<p:dataTable id = "tabelaArrecadacaoRegistro" emptyMessage = "Nenhum registro encontrado." 
 					paginator = "true" paginatorPosition = "bottom" 
@@ -170,24 +191,35 @@
 			<!-- Painel para alinhamento dos componentes -->
 			<h:panelGrid title = "Arrecadações" id = "painel"  style = "margin-bottom: 8px" cellpadding = "0">
 			
-			<p:outputLabel for="descricao" value="Descrição: ">
-				<p:inputText id="descricao" value="#{feiranteArrecadacaoBean.arrecadacao.descricao}" size="50" style="margin-bottom: 3px"/>
-			</p:outputLabel>
+			<p:row>
+				<p:column>
+					<p:outputLabel for="descricao" value="Descrição: "/>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:inputText id="descricao" value="#{feiranteArrecadacaoBean.arrecadacao.descricao}" size="50" style="margin-bottom: 3px"/>
+				</p:column>
+			</p:row>
 			
 			<p:row>
-			<p:column>
-				<p:outputLabel for="data" value="Data: ">
-					<p:calendar id="data"
-						value="#{feiranteArrecadacaoBean.arrecadacao.data}" size="10" locale="pt_BR" />
-				</p:outputLabel>
-			</p:column>
-			<p:column>
-				<p:outputLabel for="valor" value="Valor: " style="margin-left: 10px">
-					<p:inputText id="valor" value="#{feiranteArrecadacaoBean.arrecadacao.valor}" size="10">
+				<p:column>
+					<p:outputLabel for="data" value="Data: "/>
+				</p:column>
+				<p:column>
+					<p:outputLabel for="valor" value="Valor: " style="margin-left: 90px"/>
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+						<p:calendar id="data"
+							value="#{feiranteArrecadacaoBean.arrecadacao.data}" size="10" locale="pt_BR" />
+				</p:column>
+				<p:column>
+					<p:inputText id="valor" value="#{feiranteArrecadacaoBean.arrecadacao.valor}" size="10" style="margin-left:20px">
 						<f:convertNumber locale="pt_BR" minFractionDigits="2" />
 					</p:inputText>
-				</p:outputLabel>
-			</p:column>
+				</p:column>
 			</p:row>	
 					
 				<p:dataTable id = "tabelaArrecadacaoRegistro" emptyMessage = "Nenhum registro encontrado." 
@@ -200,7 +232,7 @@
 				
 				<p:column>
 					<p:selectBooleanButton id="situacao" value="#{feiranteArrecadacao.situacao}" 
-						onLabel="Compareceu" offLabel="Faltou" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:150px; margin-left:10px">		
+						onLabel="Pago" offLabel="Pendente" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:150px; margin-left:10px">		
 					</p:selectBooleanButton>
 				</p:column>
 				

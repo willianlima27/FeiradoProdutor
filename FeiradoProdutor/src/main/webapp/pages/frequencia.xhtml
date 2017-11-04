@@ -11,8 +11,6 @@
 	  xmlns:o="http://omnifaces.org/ui">
 <h:head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<h:outputStylesheet library="css" name="estilo.css" />
-<h:outputStylesheet library="css" name="style.css" />
 	<title>Frequencia</title>
 </h:head>
 
@@ -38,8 +36,8 @@
 					
 					<!-- Botão "Novo" para manter feirante -->
 					<f:facet name = "header">
-						<p:commandButton value = "Novo" actionListener = "#{feiranteFrequenciaBean.novo}"
-							oncomplete = "PF('dialogoNovo').show();" update = ":mensagem :formNovo:painel" >
+						<p:commandButton icon="ui-icon-plusthick" title="Novo" actionListener = "#{feiranteFrequenciaBean.novo}"
+							oncomplete = "PF('dialogoNovo').show();" update = ":mensagem :formNovo:painel" styleClass="commandButton">
 							<f:actionListener type = "org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 						</p:commandButton>
 					</f:facet>
@@ -47,31 +45,38 @@
 						<!-- Definição da tabela -->
 						<p:dataTable id = "tabelaFrequencia" emptyMessage = "Nenhuma lista de frequencia foi encontrado." 
 							paginator = "true" paginatorPosition = "bottom" value = "#{feiranteFrequenciaBean.frequencias}" 
-							var = "frequencia" rows = "10">
+							var = "frequencia" rows = "10" widgetVar="frequenciasTable" filteredValue="#{feiranteFrequenciaBean.filtroFrequencias}">
+							
+							<f:facet name="header">
+          					  <p:outputPanel style="text-align: left">
+                				<h:outputText value="Pesquisar: " />
+              					  <p:inputText id="globalFilter" onkeyup="PF('frequenciasTable').filter()" style="width:150px"/>
+          					  </p:outputPanel>
+        					</f:facet>
 					
-							<!-- Coluna "Nome" do feirante -->
-							<p:column headerText = "Data" sortBy = "#{frequenciadata}">
+							<!-- Coluna "Código" da lista de Frequencia -->
+							<p:column headerText = "Código" sortBy = "#{frequencia.codigo}" filterBy="#{frequencia.codigo}" style="width:100px; text-align:center">
+								<h:outputText value = "#{frequencia.codigo}"/>
+							</p:column>
+							
+							<!-- Coluna "Data" da lista de frequencia -->
+							<p:column headerText = "Data" sortBy = "#{frequencia.data}" filterBy="#{frequencia.data}">
 								<h:outputText value = "#{frequencia.data}">
 									<f:convertDateTime locale="pt_BR"/>
 								</h:outputText>
 							</p:column>
 				
-							<!-- Coluna "Frequência" -->
-							<p:column headerText = "Frequência">
-								<h:outputText value = "%" />
-							</p:column>
-				
 							<!-- Coluna de opções -->
 							<p:column style="text-align:center" width = "160" headerText = "Opções" >
 								<p:commandButton icon = "ui-icon-pencil" actionListener = "#{feiranteFrequenciaBean.editar}" 
-									update = ":formEditar:painel" oncomplete = "PF('dialogoEditar').show();">									
+									update = ":formEditar:painel" oncomplete = "PF('dialogoEditar').show();" title="Editar">									
 									<f:attribute name = "frequenciaSelecionada" value="#{frequencia}"/>
 									<f:actionListener type = "org.omnifaces.eventlistener.ResetInputAjaxActionListener" />										
 								</p:commandButton>
 					
 								<!-- Botão "Excluir" -->
 								<p:commandButton icon = "ui-icon-trash" actionListener = "#{feiranteFrequenciaBean.excluir}"
-									update = ":mensagem :formListagem:tabelaFrequencia">
+									update = ":mensagem :formListagem:tabelaFrequencia" title="Excluir">
 									<p:confirm header = "Confirmação"	message = "Deseja excluir a Frquência?" icon = "ui-icon-alert" />
 										<f:attribute name = "frequenciaSelecionada" value="#{frequencia}"/>		
 								</p:commandButton>
@@ -102,10 +107,13 @@
 			<!-- Painel para alinhamento dos componentes -->
 			<h:panelGrid title = "Frequências" id = "painel"  style = "margin-bottom: 8px" cellpadding = "0">
 			
-			<p:outputLabel for="data" value="Data: ">
+			<p:column>
+				<p:outputLabel for="data" value="Data: "/>
+			</p:column>
+			<p:column>
 				<p:calendar id="data"
 					value="#{feiranteFrequenciaBean.frequencia.data}" size="10" locale="pt_BR" />
-			</p:outputLabel>	
+			</p:column>	
 					
 				<p:dataTable id = "tabelaFrequenciaRegistro" emptyMessage = "Nenhum registro encontrado." 
 					paginator = "true" paginatorPosition = "bottom" 
@@ -147,12 +155,14 @@
 		
 			<!-- Painel para alinhamento dos componentes -->
 			<h:panelGrid title = "Frequências" id = "painel"  style = "margin-bottom: 8px" cellpadding = "0">
+			
 			<p:column>
-				<p:outputLabel for="data" value="Data: ">
-					<p:calendar id="data"
-						value="#{feiranteFrequenciaBean.frequencia.data}" size="10" locale="pt_BR" />
-				</p:outputLabel>
+				<p:outputLabel for="data" value="Data: "/>
 			</p:column>
+			<p:column>
+				<p:calendar id="data"
+					value="#{feiranteFrequenciaBean.frequencia.data}" size="10" locale="pt_BR" />
+			</p:column>	
 			
 				<p:dataTable id = "tabelaFrequenciaRegistro" emptyMessage = "Nenhum registro encontrado." 
 					paginator = "true" paginatorPosition = "bottom" 

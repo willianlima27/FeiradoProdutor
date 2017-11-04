@@ -2,6 +2,8 @@ package br.com.feiradoprodutor.bean;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +14,6 @@ import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
-import org.primefaces.component.datatable.DataTable;
 
 import br.com.feiradoprodutor.dao.ArrecadacaoDAO;
 import br.com.feiradoprodutor.dao.FeiranteArrecadacaoDAO;
@@ -37,8 +38,12 @@ public class FeiranteArrecadacaoBean implements Serializable{
 		
 	private List<FeiranteArrecadacao> feirantesArrecadacoes;
 	private List<FeiranteArrecadacao> arrecadacaoPorData;
+	private List<FeiranteArrecadacao> filtroArrecadacoes;
 	private List<Arrecadacao> arrecadacoes;
 	private List<Feirante> feirantes;
+	
+	private Date datainicio;
+	private Date datafim;
 
 	public FeiranteArrecadacao getFeiranteArrecadacao() {
 		return feiranteArrecadacao;
@@ -94,6 +99,30 @@ public class FeiranteArrecadacaoBean implements Serializable{
 
 	public void setFeirantes(List<Feirante> feirantes) {
 		this.feirantes = feirantes;
+	}
+
+	public List<FeiranteArrecadacao> getFiltroArrecadacoes() {
+		return filtroArrecadacoes;
+	}
+
+	public void setFiltroArrecadacoes(List<FeiranteArrecadacao> filtroArrecadacoes) {
+		this.filtroArrecadacoes = filtroArrecadacoes;
+	}
+
+	public Date getDatainicio() {
+		return datainicio;
+	}
+
+	public void setDatainicio(Date datainicio) {
+		this.datainicio = datainicio;
+	}
+
+	public Date getDatafim() {
+		return datafim;
+	}
+
+	public void setDatafim(Date datafim) {
+		this.datafim = datafim;
 	}
 
 	@PostConstruct
@@ -202,21 +231,26 @@ public class FeiranteArrecadacaoBean implements Serializable{
 	}
 	
 	public void imprimir(){
-		try{
-			DataTable tabela = (DataTable) Faces.getViewRoot().findComponent("formListagemProduto:tabelaProduto");
-			Map<String, Object> parametros = tabela.getFilters();		
 		
-			String caminho = Faces.getRealPath("/reports/feirantesprodutos.jasper");
-					
+		try{
+			//Caminho do arquivo Jasper
+			String caminho = Faces.getRealPath("/reports/feiranteArrecadacao.jasper");
+			//recebe os parâmetros
+			Map<String, Object> parametros = new HashMap<>();
+			parametros.put("data_inicio", this.datainicio);
+			parametros.put("data_fim", this.datafim);
+			//Realiza a conexão com o Banco
 			Connection conexao = HibernateUtil.getConexao();
-					
+			//Recebe um relatório populado
 			JasperPrint relatorio = JasperFillManager.fillReport(caminho, parametros, conexao);
-			
+			//Habilita a impressão
 			JasperPrintManager.printReport(relatorio, true);
+			
 		}catch (JRException erro){
 			Messages.addGlobalError("Ocorreu um erro ao tentar gerar o relatório");
 			erro.printStackTrace();
 		}
+			
 	}
 	
 
