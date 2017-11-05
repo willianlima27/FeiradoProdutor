@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2017-11-04T00:44:32 -->
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Produtos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ed1c9f91-f153-46b3-b081-db4e86d318d5">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FeiraDoProdutor"/>
-	<property name="com.jaspersoft.studio.data.sql.tables" value="cHVibGljLnByb2R1dG8gQVMgLDE0Myw1NCw4OWFlOWIzYy1hNDYwLTRiOGEtODYxZi04YzM1ZTRi&#xA;YTFkODY7"/>
+	<property name="com.jaspersoft.studio.data.sql.tables">
+		<![CDATA[cHVibGljLnByb2R1dG8gQVMgLDE0Myw1NCw4OWFlOWIzYy1hNDYwLTRiOGEtODYxZi04YzM1ZTRi
+YTFkODY7]]>
+	</property>
 	<queryString>
 		<![CDATA[SELECT public.produto.codigo,
 	public.produto.genero,
